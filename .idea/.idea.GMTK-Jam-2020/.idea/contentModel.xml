@@ -10,6 +10,7 @@
         <e p="Scripts" t="Include">
           <e p="MatchSystem" t="Include">
             <e p="Match.cs" t="Include" />
+            <e p="MatchController.cs" t="Include" />
           </e>
           <e p="PlayerController.cs" t="Include" />
           <e p="SimpleCameraController.cs" t="Include" />
