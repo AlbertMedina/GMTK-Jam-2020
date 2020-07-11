@@ -11,11 +11,11 @@ public class PlayerController : MonoBehaviour
     public KeyCode leftKey;
     public KeyCode jumpKey;
     public KeyCode meleeAttackKey;
-    
+
     [Header("Stats")]
     public float initialHealth;
     private float health;
-    
+
     [Header("Movement")]
     public float movementSpeed;
     public float jumpingSpeed;
@@ -29,8 +29,18 @@ public class PlayerController : MonoBehaviour
 
     [Header("Shooting")]
     public BulletController bullet;
+    public BulletController bulletGravity;
+    public BulletController bulletBouncing;
     public Transform firePoint;
     public float bulletSpeed;
+
+    [Header("VisualShooting")]
+    public Animator gunAnim;
+    public ParticleSystem basicShotParts;
+    public ParticleSystem blobShotParts;
+    public ParticleSystem ricochetShotParts;
+    public float particlesTime = 0.3f;
+    public CameraShake cameraShake;
 
     private CharacterController characterController;
     private RoundRules roundRules;
@@ -251,7 +261,25 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        BulletController currentBullet = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
+        BulletController currentBullet;
+        if (bouncingBullets)
+        {
+            ricochetShotParts.Play();
+            currentBullet = Instantiate(bulletBouncing, firePoint.position, pitchRotator.rotation);
+        }
+        else if (gravityBullets)
+        {
+            blobShotParts.Play();
+            currentBullet = Instantiate(bulletGravity, firePoint.position, pitchRotator.rotation);
+
+        }
+        else
+        {
+            basicShotParts.Play();
+            currentBullet = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
+        }
+        gunAnim.SetTrigger("Shot");
+        cameraShake.ShakeCamera(0.4f, 0.2f);
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletSpeed, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), characterController);
 
