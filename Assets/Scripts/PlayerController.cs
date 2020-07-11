@@ -14,12 +14,13 @@ public class PlayerController : MonoBehaviour
     
     [Header("Stats")]
     public float initialHealth;
+    private float health;
     
     [Header("Movement")]
     public float movementSpeed;
     public float jumpingSpeed;
 
-    [Header("Rotaion")]
+    [Header("Rotation")]
     public Transform pitchRotator;
     public float maxPitchRotation;
     public float minPitchRotation;
@@ -40,12 +41,22 @@ public class PlayerController : MonoBehaviour
     private float verticalSpeed;
     private bool isGrounded;
 
+    //Shooting Rules
     private bool invertedMovement = false;
+    private bool bouncingBullets = false;
+    private bool gravityBullets = false;
+    private bool onlyOneBullet = false;
+    private bool bulletUsed = false;
+
+    //Movement Rules
+    private bool invertedAiming = false;
     private bool canMove = true;
 
-    private bool invertedAiming = false;
-    private bool gravityBullets = false;
-    private bool bouncingBullets = false;
+    //Winning Condition Rules
+    private bool onlyMelee = false;
+    private bool catchTheFlag = false;
+    private bool winByDying = false;
+    private bool onlyHeadshots = false;
 
     public enum ShootingRules
     {
@@ -85,10 +96,12 @@ public class PlayerController : MonoBehaviour
         verticalSpeed = 0f;
         isGrounded = false;
 
+        health = initialHealth;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        SetRoundRules(ShootingRules.ONLY_ONE_BULLET, MovementRules.NONE, WinningRules.NONE);
+        SetRoundRules(ShootingRules.NONE, MovementRules.NONE, WinningRules.NONE);
     }
 
     void Update()
@@ -205,7 +218,15 @@ public class PlayerController : MonoBehaviour
         #region Attack
         if (Input.GetMouseButtonDown(0))
         {
-            Shoot();
+            if(!onlyOneBullet)
+            {
+                Shoot();
+            }
+            else if (!bulletUsed)
+            {
+                Shoot();
+                bulletUsed = true;
+            }
         }
 
         if (Input.GetKeyDown(meleeAttackKey))
@@ -213,23 +234,55 @@ public class PlayerController : MonoBehaviour
             MeleeAttack();
         }
         #endregion
+
+        if(health <= 0)
+        {
+            Death();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Flag" && catchTheFlag)
+        {
+            //Win
+        }
     }
 
     private void Shoot()
     {
-        BulletController b = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
-        b.GetComponent<Rigidbody>().AddForce(b.transform.forward * bulletSpeed, ForceMode.Impulse);
-        Physics.IgnoreCollision(b.GetComponent<Collider>(), characterController);
+        BulletController currentBullet = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
+        currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletSpeed, ForceMode.Impulse);
+        Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), characterController);
 
-        b.gravityBullet = gravityBullets;
-        b.gravityMultiplier = roundRules.bulletsGravityMultiplier;
+        currentBullet.gravityBullet = gravityBullets;
+        currentBullet.gravityMultiplier = roundRules.bulletsGravityMultiplier;
+        currentBullet.bouncingBullet = bouncingBullets;
 
-        b.bouncingBullet = bouncingBullets;
+        currentBullet.canTakeDamage = !onlyMelee;
+        currentBullet.onlyHeadshots = onlyHeadshots;
     }
     
     private void MeleeAttack()
     {
 
+    }
+
+    public void Hit(float damage)
+    {
+        health -= damage;
+    }
+
+    private void Death()
+    {
+        if (winByDying)
+        {
+            //Win
+        }
+        else
+        {
+            //Lose
+        }
     }
 
     public void SetRoundRules(ShootingRules shootingRule, MovementRules movementRule, WinningRules winningRule)
@@ -248,7 +301,8 @@ public class PlayerController : MonoBehaviour
                 invertedAiming = true;
                 break;
             case ShootingRules.ONLY_ONE_BULLET:
-
+                onlyOneBullet = true;
+                bulletUsed = false;
                 break;
         }
 
@@ -275,16 +329,16 @@ public class PlayerController : MonoBehaviour
             case WinningRules.NONE:
                 break;
             case WinningRules.WIN_BY_DYING:
-
+                winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
-
+                catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
-
+                onlyHeadshots = true;
                 break;
             case WinningRules.ONLY_MELEE:
-
+                onlyMelee = true;
                 break;
         }
     }
@@ -294,9 +348,15 @@ public class PlayerController : MonoBehaviour
         invertedAiming = false;
         gravityBullets = false;
         bouncingBullets = false;
+        onlyOneBullet = false;
 
         Time.timeScale = 1f;
         invertedMovement = false;
         canMove = true;
+
+        onlyMelee = false;
+        catchTheFlag = false;
+        winByDying = false;
+        onlyHeadshots = false;
     }
 }
