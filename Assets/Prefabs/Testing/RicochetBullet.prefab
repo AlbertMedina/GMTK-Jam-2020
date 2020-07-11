@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4897100229098271526}
   - component: {fileID: -2718618237300116691}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: RicochetBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8120298337531924888}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.69, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5a343c559209674da90c9ff827c45e0, type: 2}
+  - {fileID: 2100000, guid: ac3c596554ee0614ea0e2989fceb3061, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,5 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38584efa53921843a28da2f680be205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bouncingBullet: 0
   gravityBullet: 0
   gravityMultiplier: 0
+  canTakeDamage: 0
+  onlyHeadshots: 0
