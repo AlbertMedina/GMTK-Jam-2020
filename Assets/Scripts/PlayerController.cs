@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Controls")]
+    public KeyCode forwardKey;
+    public KeyCode backwardsKey;
+    public KeyCode rightKey;
+    public KeyCode leftKey;
+    public KeyCode jumpKey;
+    public KeyCode meleeAttackKey;
+    
     [Header("Stats")]
     public float initialHealth;
     
@@ -25,11 +33,38 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
 
-    float yawRotation;
-    float pitchRotation;
+    private float yawRotation;
+    private float pitchRotation;
 
-    float verticalSpeed;
-    bool isGrounded;
+    private float verticalSpeed;
+    private bool isGrounded;
+
+    public enum ShootingRules
+    {
+        NONE,
+        BOUNCING_BULLETS,
+        BULLETS_GRAVITY,
+        INVERTED_MOUSE,
+        ONLY_ONE_BULLET
+    }
+
+    public enum MovementRules
+    {
+        NONE,
+        SLOW_MOTION,
+        HYPERFAST,
+        INVERTED_CONTROLS,
+        CANNOT_MOVE
+    }
+
+    public enum WinningRules
+    {
+        NONE,
+        WIN_BY_DYING,
+        CATCH_THE_FLAG,
+        ONLY_HEADSHOTS,
+        ONLY_MELEE
+    }
 
     private void Awake()
     {
@@ -43,6 +78,8 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        SetRoundRules(ShootingRules.NONE, MovementRules.HYPERFAST, WinningRules.NONE);
     }
 
     void Update()
@@ -64,11 +101,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement;
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(forwardKey))
         {
             movement = forwardVector;
         }     
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(backwardsKey))
         {
             movement = -forwardVector;
         }
@@ -77,12 +114,12 @@ public class PlayerController : MonoBehaviour
             movement = Vector3.zero;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(rightKey))
         {
             movement += rightVector;
         }
             
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(leftKey))
         {
             movement -= rightVector;
         }
@@ -91,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
         movement *= Time.deltaTime * movementSpeed;
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(jumpKey))
         {
             verticalSpeed = jumpingSpeed;
         }  
@@ -99,9 +136,10 @@ public class PlayerController : MonoBehaviour
         #region Collisions_Gravity
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
         movement.y = verticalSpeed * Time.deltaTime;
-        
-        CollisionFlags l_collisionFlags = characterController.Move(movement);
-        if ((l_collisionFlags & CollisionFlags.Below) != 0)
+
+        characterController.Move(movement);
+
+        if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, 0.1f))
         {
             isGrounded = true;
             verticalSpeed = 0.0f;
@@ -117,7 +155,7 @@ public class PlayerController : MonoBehaviour
             Shoot();
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(meleeAttackKey))
         {
             MeleeAttack();
         }
@@ -134,5 +172,57 @@ public class PlayerController : MonoBehaviour
     private void MeleeAttack()
     {
 
+    }
+
+    public void SetRoundRules(ShootingRules shootingRule, MovementRules movementRule, WinningRules winningRule)
+    {
+        switch (shootingRule)
+        {
+            case ShootingRules.NONE:
+                break;
+            case ShootingRules.BOUNCING_BULLETS:
+                break;
+            case ShootingRules.BULLETS_GRAVITY:
+                break;
+            case ShootingRules.INVERTED_MOUSE:
+                break;
+            case ShootingRules.ONLY_ONE_BULLET:
+                break;
+        }
+
+        switch (movementRule)
+        {
+            case MovementRules.NONE:
+                break;
+            case MovementRules.SLOW_MOTION:
+                Time.timeScale = 0.5f;
+                break;
+            case MovementRules.HYPERFAST:
+                Time.timeScale = 2f;
+                break;
+            case MovementRules.INVERTED_CONTROLS:
+                break;
+            case MovementRules.CANNOT_MOVE:
+                break;
+        }
+
+        switch (winningRule)
+        {
+            case WinningRules.NONE:
+                break;
+            case WinningRules.WIN_BY_DYING:
+                break;
+            case WinningRules.CATCH_THE_FLAG:
+                break;
+            case WinningRules.ONLY_HEADSHOTS:
+                break;
+            case WinningRules.ONLY_MELEE:
+                break;
+        }
+    }
+
+    public void ResetRules()
+    {
+        Time.timeScale = 1f;
     }
 }
