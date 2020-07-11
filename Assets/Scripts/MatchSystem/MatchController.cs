@@ -13,7 +13,7 @@ public class MatchController : MonoBehaviour
     
     private Match _match;
     
-    public void InitMatch()
+    public void InitMatch() //Choose match rules
     {
         _match = new Match();
         _match.Generate();
@@ -27,7 +27,7 @@ public class MatchController : MonoBehaviour
         ConfigWinCon();
     }
 
-    public void StartMatch()
+    public void StartMatch() //After countdown
     {
         
     }
