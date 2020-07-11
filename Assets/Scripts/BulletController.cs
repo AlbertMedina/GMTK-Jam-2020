@@ -11,6 +11,8 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public bool gravityBullet;
     [HideInInspector] public float gravityMultiplier;
 
+    [HideInInspector] public bool canTakeDamage;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -30,6 +32,11 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.tag == "Enemy" && canTakeDamage)
+        {
+            //EnemyHit
+        }
+        
         if (!bouncingBullet)
         {
             Destroy(gameObject);
