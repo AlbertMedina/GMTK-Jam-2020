@@ -111,13 +111,28 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
         #endregion
-        #region Shooting
+        #region Attack
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject b = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
-            b.GetComponent<Rigidbody>().AddForce(b.transform.forward * bulletSpeed, ForceMode.Impulse);
-            Physics.IgnoreCollision(b.GetComponent<Collider>(), characterController);
+            Shoot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            MeleeAttack();
         }
         #endregion
+    }
+
+    private void Shoot()
+    {
+        GameObject b = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
+        b.GetComponent<Rigidbody>().AddForce(b.transform.forward * bulletSpeed, ForceMode.Impulse);
+        Physics.IgnoreCollision(b.GetComponent<Collider>(), characterController);
+    }
+    
+    private void MeleeAttack()
+    {
+
     }
 }
