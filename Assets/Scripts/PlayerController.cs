@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     public float pitchRotationSpeed;
     public float yawRotationSpeed;
 
+    [Header("Shooting")]
+    public GameObject bullet;
+    public Transform firePoint;
+    public float bulletSpeed;
+
     private CharacterController characterController;
 
     float yawRotation;
@@ -32,6 +37,9 @@ public class PlayerController : MonoBehaviour
 
         verticalSpeed = 0f;
         isGrounded = false;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -47,8 +55,6 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0.0f, yawRotation, 0.0f);
         pitchRotator.localRotation = Quaternion.Euler(-pitchRotation, 0.0f, 0.0f);
         #endregion
-
-
         #region Movement
         Vector3 forwardVector = new Vector3(Mathf.Sin(yawRotation * Mathf.Deg2Rad), 0.0f, Mathf.Cos(yawRotation * Mathf.Deg2Rad));
         Vector3 rightVector = new Vector3(Mathf.Sin((yawRotation + 90.0f) * Mathf.Deg2Rad), 0.0f, Mathf.Cos((yawRotation + 90.0f) * Mathf.Deg2Rad));
@@ -87,7 +93,6 @@ public class PlayerController : MonoBehaviour
             verticalSpeed = jumpingSpeed;
         }  
         #endregion
-
         #region Collisions_Gravity
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
         movement.y = verticalSpeed * Time.deltaTime;
@@ -101,6 +106,14 @@ public class PlayerController : MonoBehaviour
         else
         {
             isGrounded = false;
+        }
+        #endregion
+        #region Shooting
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject b = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
+            b.GetComponent<Rigidbody>().AddForce(b.transform.forward * bulletSpeed, ForceMode.Impulse);
+            Physics.IgnoreCollision(b.GetComponent<Collider>(), characterController);
         }
         #endregion
     }
