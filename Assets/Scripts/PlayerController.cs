@@ -342,7 +342,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
     public void ResetRules()
     {
         invertedAiming = false;
