@@ -12,6 +12,7 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public float gravityMultiplier;
 
     [HideInInspector] public bool canTakeDamage;
+    [HideInInspector] public bool onlyHeadshots;
 
     private void Awake()
     {
@@ -32,7 +33,12 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Enemy" && canTakeDamage)
+        if(collision.gameObject.tag == "EnemyHead" && canTakeDamage)
+        {
+            //EnemyHit (headshot)
+        }
+        
+        if(collision.gameObject.tag == "Enemy" && canTakeDamage && !onlyHeadshots)
         {
             //EnemyHit
         }

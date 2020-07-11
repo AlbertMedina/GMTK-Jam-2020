@@ -14,12 +14,13 @@ public class PlayerController : MonoBehaviour
     
     [Header("Stats")]
     public float initialHealth;
+    private float health;
     
     [Header("Movement")]
     public float movementSpeed;
     public float jumpingSpeed;
 
-    [Header("Rotaion")]
+    [Header("Rotation")]
     public Transform pitchRotator;
     public float maxPitchRotation;
     public float minPitchRotation;
@@ -54,6 +55,8 @@ public class PlayerController : MonoBehaviour
     //Winning Condition Rules
     private bool onlyMelee = false;
     private bool catchTheFlag = false;
+    private bool winByDying = false;
+    private bool onlyHeadshots = false;
 
     public enum ShootingRules
     {
@@ -92,6 +95,8 @@ public class PlayerController : MonoBehaviour
 
         verticalSpeed = 0f;
         isGrounded = false;
+
+        health = initialHealth;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -229,6 +234,11 @@ public class PlayerController : MonoBehaviour
             MeleeAttack();
         }
         #endregion
+
+        if(health <= 0)
+        {
+            Death();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -247,15 +257,32 @@ public class PlayerController : MonoBehaviour
 
         currentBullet.gravityBullet = gravityBullets;
         currentBullet.gravityMultiplier = roundRules.bulletsGravityMultiplier;
-
         currentBullet.bouncingBullet = bouncingBullets;
 
         currentBullet.canTakeDamage = !onlyMelee;
+        currentBullet.onlyHeadshots = onlyHeadshots;
     }
     
     private void MeleeAttack()
     {
 
+    }
+
+    public void Hit(float damage)
+    {
+        health -= damage;
+    }
+
+    private void Death()
+    {
+        if (winByDying)
+        {
+            //Win
+        }
+        else
+        {
+            //Lose
+        }
     }
 
     public void SetRoundRules(ShootingRules shootingRule, MovementRules movementRule, WinningRules winningRule)
@@ -302,13 +329,13 @@ public class PlayerController : MonoBehaviour
             case WinningRules.NONE:
                 break;
             case WinningRules.WIN_BY_DYING:
-
+                winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
                 catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
-
+                onlyHeadshots = true;
                 break;
             case WinningRules.ONLY_MELEE:
                 onlyMelee = true;
@@ -329,5 +356,7 @@ public class PlayerController : MonoBehaviour
 
         onlyMelee = false;
         catchTheFlag = false;
+        winByDying = false;
+        onlyHeadshots = false;
     }
 }
