@@ -27,11 +27,12 @@ public class PlayerController : MonoBehaviour
     public float yawRotationSpeed;
 
     [Header("Shooting")]
-    public GameObject bullet;
+    public BulletController bullet;
     public Transform firePoint;
     public float bulletSpeed;
 
     private CharacterController characterController;
+    private RoundRules roundRules;
 
     private float yawRotation;
     private float pitchRotation;
@@ -39,11 +40,18 @@ public class PlayerController : MonoBehaviour
     private float verticalSpeed;
     private bool isGrounded;
 
+    private bool invertedMovement = false;
+    private bool canMove = true;
+
+    private bool invertedAiming = false;
+    private bool gravityBullets = false;
+    private bool bouncingBullets = false;
+
     public enum ShootingRules
     {
         NONE,
         BOUNCING_BULLETS,
-        BULLETS_GRAVITY,
+        GRAVITY_BULLETS,
         INVERTED_MOUSE,
         ONLY_ONE_BULLET
     }
@@ -69,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        roundRules = GetComponent<RoundRules>();
 
         yawRotation = transform.rotation.eulerAngles.y;
         pitchRotation = pitchRotator.localRotation.eulerAngles.x;
@@ -79,18 +88,32 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        SetRoundRules(ShootingRules.NONE, MovementRules.HYPERFAST, WinningRules.NONE);
+        SetRoundRules(ShootingRules.ONLY_ONE_BULLET, MovementRules.NONE, WinningRules.NONE);
     }
 
     void Update()
     {
         #region Rotation
-        float l_mouseAxisY = Input.GetAxis("Mouse Y");
-        pitchRotation += l_mouseAxisY * pitchRotationSpeed;
+
+        float mouseAxisY;
+        float mouseAxisX;
+        
+        if (invertedAiming)
+        {
+            mouseAxisY = -Input.GetAxis("Mouse Y");
+            mouseAxisX = -Input.GetAxis("Mouse X");
+        }
+        else
+        {
+            mouseAxisY = Input.GetAxis("Mouse Y");
+            mouseAxisX = Input.GetAxis("Mouse X");
+        }
+        
+        pitchRotation += mouseAxisY * pitchRotationSpeed;
         pitchRotation = Mathf.Clamp(pitchRotation, minPitchRotation, maxPitchRotation);
 
-        float l_MouseAxisX = Input.GetAxis("Mouse X");
-        yawRotation += l_MouseAxisX * yawRotationSpeed;
+        
+        yawRotation += mouseAxisX * yawRotationSpeed;
 
         transform.rotation = Quaternion.Euler(0.0f, yawRotation, 0.0f);
         pitchRotator.localRotation = Quaternion.Euler(-pitchRotation, 0.0f, 0.0f);
@@ -103,11 +126,25 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(forwardKey))
         {
-            movement = forwardVector;
+            if (invertedMovement)
+            {
+                movement = -forwardVector;
+            }
+            else
+            {
+                movement = forwardVector;
+            } 
         }     
         else if (Input.GetKey(backwardsKey))
         {
-            movement = -forwardVector;
+            if (invertedMovement)
+            {
+                movement = forwardVector;
+            }
+            else
+            {
+                movement = -forwardVector;
+            } 
         }
         else
         {
@@ -116,12 +153,26 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(rightKey))
         {
-            movement += rightVector;
+            if (invertedMovement)
+            {
+                movement -= rightVector;
+            }
+            else
+            {
+                movement += rightVector;
+            }
         }
             
         else if (Input.GetKey(leftKey))
         {
-            movement -= rightVector;
+            if (invertedMovement)
+            {
+                movement += rightVector;
+            }
+            else
+            {
+                movement -= rightVector;
+            } 
         }
             
         movement.Normalize();
@@ -131,13 +182,15 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(jumpKey))
         {
             verticalSpeed = jumpingSpeed;
-        }  
-        #endregion
-        #region Collisions_Gravity
+        }
+
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
         movement.y = verticalSpeed * Time.deltaTime;
 
-        characterController.Move(movement);
+        if (canMove)
+        {
+            characterController.Move(movement);
+        }
 
         if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, 0.1f))
         {
@@ -164,9 +217,14 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject b = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
+        BulletController b = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
         b.GetComponent<Rigidbody>().AddForce(b.transform.forward * bulletSpeed, ForceMode.Impulse);
         Physics.IgnoreCollision(b.GetComponent<Collider>(), characterController);
+
+        b.gravityBullet = gravityBullets;
+        b.gravityMultiplier = roundRules.bulletsGravityMultiplier;
+
+        b.bouncingBullet = bouncingBullets;
     }
     
     private void MeleeAttack()
@@ -181,12 +239,16 @@ public class PlayerController : MonoBehaviour
             case ShootingRules.NONE:
                 break;
             case ShootingRules.BOUNCING_BULLETS:
+                bouncingBullets = true;
                 break;
-            case ShootingRules.BULLETS_GRAVITY:
+            case ShootingRules.GRAVITY_BULLETS:
+                gravityBullets = true;
                 break;
             case ShootingRules.INVERTED_MOUSE:
+                invertedAiming = true;
                 break;
             case ShootingRules.ONLY_ONE_BULLET:
+
                 break;
         }
 
@@ -195,14 +257,16 @@ public class PlayerController : MonoBehaviour
             case MovementRules.NONE:
                 break;
             case MovementRules.SLOW_MOTION:
-                Time.timeScale = 0.5f;
+                Time.timeScale = roundRules.slowTimeMultiplier;
                 break;
             case MovementRules.HYPERFAST:
-                Time.timeScale = 2f;
+                Time.timeScale = roundRules.fastTimeMultiplier;
                 break;
             case MovementRules.INVERTED_CONTROLS:
+                invertedMovement = true;
                 break;
             case MovementRules.CANNOT_MOVE:
+                canMove = false;
                 break;
         }
 
@@ -211,18 +275,28 @@ public class PlayerController : MonoBehaviour
             case WinningRules.NONE:
                 break;
             case WinningRules.WIN_BY_DYING:
+
                 break;
             case WinningRules.CATCH_THE_FLAG:
+
                 break;
             case WinningRules.ONLY_HEADSHOTS:
+
                 break;
             case WinningRules.ONLY_MELEE:
+
                 break;
         }
     }
 
     public void ResetRules()
     {
+        invertedAiming = false;
+        gravityBullets = false;
+        bouncingBullets = false;
+
         Time.timeScale = 1f;
+        invertedMovement = false;
+        canMove = true;
     }
 }
