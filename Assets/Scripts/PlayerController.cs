@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{    
+{
+    [Header("Stats")]
+    public float initialHealth;
+    
     [Header("Movement")]
     public float movementSpeed;
     public float jumpingSpeed;
