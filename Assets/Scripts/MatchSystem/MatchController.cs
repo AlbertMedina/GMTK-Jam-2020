@@ -10,6 +10,7 @@ public class MatchController : MonoBehaviour
     [SerializeField] private float gravityMultiplier;
     [SerializeField] private float slowMoTime;
     [SerializeField] private float fastMoTime;
+    [SerializeField] private GameObject hud;
     
     
     private Match _match;
@@ -37,18 +38,18 @@ public class MatchController : MonoBehaviour
         ConfigMovement();
         ConfigWinCon();
         
-        ConfigUIController.Instance.Play();
         StartCoroutine(Co_StartMatch());
     }
 
     private void StartMatch() //After countdown
     {
-        
+        hud.SetActive(true);
     }
 
     public void StopMatch()
     {
         ResetMatch();
+        hud.SetActive(false);
     }
 
     private void ResetMatch()
@@ -115,9 +116,11 @@ public class MatchController : MonoBehaviour
 
     private IEnumerator Co_StartMatch()
     {
+        yield return new WaitForSecondsRealtime(0.5f);
+        ConfigUIController.Instance.Play();
         yield return new WaitForSecondsRealtime(3.5f);
         ConfigUIController.Instance.Remove();
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(0.5f);
         StartCoroutine(Co_Countdown());
     }
 
