@@ -321,7 +321,11 @@ public class EnemyController : MonoBehaviour
         {
             //Player wins
             FindObjectOfType<MatchController>().PlayerWins();
-        }
+        }       
+    }
+
+    public void FreezeEnemy()
+    {
         currentState = States.NONE;
     }
 

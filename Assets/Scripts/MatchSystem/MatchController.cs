@@ -100,14 +100,15 @@ public class MatchController : MonoBehaviour
     private void StartMatch() //After countdown
     {
         hud.SetActive(true);
-        FindObjectOfType<EnemyController>().SetInitialState();
-        FindObjectOfType<PlayerController>().StartRound();
+        enemy.SetInitialState();
+        player.StartRound();
         _hudLogic.StartCounter();
     }
 
     public void StopMatch(bool timeOut)
     {
-        FindObjectOfType<PlayerController>().FreezePlayer();
+        player.FreezePlayer();
+        enemy.FreezeEnemy();
         if (!timeOut) hud.SetActive(false);
     }
 
