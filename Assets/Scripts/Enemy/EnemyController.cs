@@ -21,6 +21,8 @@ public class EnemyController : MonoBehaviour
     public float sightDistance;
 
     [Header("Shoot")]
+    public GameObject bullet;
+    public Transform firePoint;
     public float minTimeBetweenShots;
     public float maxTimePlayerOffSight;
     public float bulletForce;
@@ -233,6 +235,8 @@ public class EnemyController : MonoBehaviour
 
     private void Shoot()
     {
-
+        GameObject currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
+        currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletForce, ForceMode.Impulse);
+        Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), GetComponent<Collider>());
     }
 }
