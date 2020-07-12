@@ -20,6 +20,9 @@ public class EnemyController : MonoBehaviour
     public float sightAngle;
     public float sightDistance;
 
+    [Header("Alert")]
+    public float arriveDistance;
+
     [Header("Shoot")]
     public EnemyBullet bullet;
     public Transform firePoint;
@@ -43,6 +46,7 @@ public class EnemyController : MonoBehaviour
         INITIAL,
         IDLE,
         PATROL,
+        ALERT,
         SHOOT
     }
 
@@ -70,6 +74,9 @@ public class EnemyController : MonoBehaviour
                 break;
             case States.PATROL:
                 UpdatePatrolState();
+                break;
+            case States.ALERT:
+                UpdateAlertState();
                 break;
             case States.SHOOT:
                 UpdateShootState();
@@ -185,6 +192,52 @@ public class EnemyController : MonoBehaviour
         }
 
         agent.SetDestination(patrolTargets[idx].transform.position);
+    }
+    #endregion
+
+    #region Alert
+    private void SetAlertState()
+    {
+        currentState = States.ALERT;
+
+        onTransition = false;
+        currentTime = 0f;
+        agent.isStopped = false;
+
+        agent.SetDestination(player.transform.position);
+    }
+
+    private void UpdateAlertState()
+    {
+        if (Vector3.Distance(transform.position, agent.destination) < arriveDistance && !onTransition)
+        {
+            SetIdleState();
+            return;
+        }
+
+        if (Vector3.Distance(transform.position, player.transform.position) < sightDistance && !onTransition)
+        {
+            if (Vector3.Angle(transform.forward, player.transform.position - transform.position) <= sightAngle)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
+                {
+                    if (hit.collider.gameObject == player.gameObject)
+                    {
+                        StartCoroutine(TransitionToShoot(patrolToShootTime));
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void AlertedByShot()
+    {
+        if (currentState != States.SHOOT)
+        {
+            SetAlertState();
+        }
     }
     #endregion
 

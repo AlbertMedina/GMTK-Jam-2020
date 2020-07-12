@@ -230,13 +230,11 @@ public class PlayerController : MonoBehaviour
                 if (!onlyOneBullet)
                 {
                     Shoot();
-                    currentTime = 0f;
                 }
                 else if (!bulletUsed)
                 {
                     Shoot();
                     bulletUsed = true;
-                    currentTime = 0f;
                 }
             }
 
@@ -264,6 +262,9 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
+        currentTime = 0f;
+        AlertEnemies();
+
         BulletController currentBullet;
         if (bouncingBullets)
         {
@@ -297,6 +298,16 @@ public class PlayerController : MonoBehaviour
         currentBullet.onlyHeadshots = onlyHeadshots;
     }
     
+    private void AlertEnemies()
+    {
+        EnemyController[] enemies = FindObjectsOfType<EnemyController>();
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].AlertedByShot();
+        }
+    }
+
     private void MeleeAttack()
     {
 
