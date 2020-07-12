@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RicochetBulletMat
+  m_Name: RicochetBulletMat 1
   m_Shader: {fileID: -6465566751694194690, guid: 4c0d098054821794991c6c0be3f0c812,
     type: 3}
   m_ShaderKeywords: _NORMALMAP_TANGENT_SPACE
@@ -242,7 +242,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_6A162E48: {r: 1, g: 0.91404873, b: 0, a: 0}
+    - Color_6A162E48: {r: 1, g: 1, b: 1, a: 0}
     - Color_6C9C775A: {r: 1, g: 1, b: 1, a: 0}
     - Color_9A9462B: {r: 1, g: 1, b: 1, a: 0}
     - Color_D2A04608: {r: 1, g: 1, b: 1, a: 0}
