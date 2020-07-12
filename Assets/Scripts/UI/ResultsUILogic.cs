@@ -27,12 +27,14 @@ public class ResultsUILogic : MonoBehaviour
     public void PlayerWins()
     {
         anim.SetTrigger("PlayerWins");
+        AudioManager.Instance.Play("Win");
         StartCoroutine(Timer());
     }
 
     public void CPUWins()
     {
         anim.SetTrigger("CPUWins");
+        AudioManager.Instance.Play("Lose");
         StartCoroutine(Timer());
     }
 

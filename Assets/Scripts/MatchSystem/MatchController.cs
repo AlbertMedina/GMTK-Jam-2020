@@ -210,12 +210,16 @@ public class MatchController : MonoBehaviour
         var counter = ConfigUIController.Instance.counter;
         counter.gameObject.SetActive(true);
         counter.text = "3";
+        AudioManager.Instance.Play("Countdown");
         yield return new WaitForSecondsRealtime(1);
         counter.text = "2";
+        AudioManager.Instance.Play("Countdown");
         yield return new WaitForSecondsRealtime(1);
         counter.text = "1";
+        AudioManager.Instance.Play("Countdown");
         yield return new WaitForSecondsRealtime(1);
         counter.text = "GO!";
+        AudioManager.Instance.Play("GO");
         StartMatch();
         yield return new WaitForSecondsRealtime(0.75f);
         counter.gameObject.SetActive(false);
