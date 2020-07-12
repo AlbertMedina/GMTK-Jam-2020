@@ -123,7 +123,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit) && !onTransition)
         {
-            if(hit.collider.gameObject == player.gameObject)
+            if(hit.collider.gameObject.tag == "Player")
             {
                 StartCoroutine(TransitionToShoot(idleToShootTime));
                 return;
@@ -167,7 +167,7 @@ public class EnemyController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
                 {
-                    if (hit.collider.gameObject == player.gameObject)
+                    if (hit.collider.gameObject.tag == "Player")
                     {
                         StartCoroutine(TransitionToShoot(patrolToShootTime));
                         return;
@@ -222,7 +222,7 @@ public class EnemyController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
                 {
-                    if (hit.collider.gameObject == player.gameObject)
+                    if (hit.collider.gameObject.tag == "Player")
                     {
                         StartCoroutine(TransitionToShoot(patrolToShootTime));
                         return;
@@ -264,7 +264,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
         {
-            if (hit.collider.gameObject == player.gameObject)
+            if (hit.collider.gameObject.tag == "Player")
             {
                 if (currentTime >= minTimeBetweenShots)
                 {
