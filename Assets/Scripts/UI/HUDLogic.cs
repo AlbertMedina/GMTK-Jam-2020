@@ -13,6 +13,7 @@ public class HUDLogic : MonoBehaviour
     [SerializeField] private GameObject _timeOut;
 
     private MatchController _matchController;
+    private Coroutine _counterCoroutine;
 
     private void Awake()
     {
@@ -29,20 +30,26 @@ public class HUDLogic : MonoBehaviour
     {
         _resultsUiLogic.gameObject.SetActive(true);
         _resultsUiLogic.PlayerWins();
-        StopAllCoroutines();
+        if(_counterCoroutine != null) StopCoroutine(_counterCoroutine);
     }
 
     public void CPUWins()
     {
         _resultsUiLogic.gameObject.SetActive(true);
         _resultsUiLogic.CPUWins();
-        StopAllCoroutines();
+        if(_counterCoroutine != null) StopCoroutine(_counterCoroutine);
     }
 
     private void TimeOut()
     {
-        StopAllCoroutines();
+        if(_counterCoroutine != null) StopCoroutine(_counterCoroutine);
         StartCoroutine(Co_TimeOut());
+    }
+
+    public void StartCounter()
+    {
+        if(_counterCoroutine != null) StopCoroutine(_counterCoroutine);
+        _counterCoroutine = StartCoroutine(Co_Counter());
     }
 
     public IEnumerator Co_Counter()

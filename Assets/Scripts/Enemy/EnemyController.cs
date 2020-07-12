@@ -20,6 +20,9 @@ public class EnemyController : MonoBehaviour
     public float sightAngle;
     public float sightDistance;
 
+    [Header("Alert")]
+    public float arriveDistance;
+
     [Header("Shoot")]
     public EnemyBullet bullet;
     public Transform firePoint;
@@ -43,7 +46,9 @@ public class EnemyController : MonoBehaviour
         INITIAL,
         IDLE,
         PATROL,
-        SHOOT
+        ALERT,
+        SHOOT, 
+        NONE
     }
 
     private States currentState;
@@ -54,8 +59,8 @@ public class EnemyController : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
 
         patrolTargets = GameObject.FindGameObjectsWithTag("PatrolAI");
-
-        SetInitialState();
+        currentState = States.NONE;
+        health = initialHealth;
     }
 
     private void Update()
@@ -71,19 +76,22 @@ public class EnemyController : MonoBehaviour
             case States.PATROL:
                 UpdatePatrolState();
                 break;
+            case States.ALERT:
+                UpdateAlertState();
+                break;
             case States.SHOOT:
                 UpdateShootState();
                 break;
         }
 
-        if(health <= 0f)
+        if(health <= 0f && currentState != States.NONE)
         {
             Death();
         }
     }
 
     #region Initial
-    private void SetInitialState()
+    public void SetInitialState()
     {
         currentState = States.INITIAL;
 
@@ -116,7 +124,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit) && !onTransition)
         {
-            if(hit.collider.gameObject == player.gameObject)
+            if(hit.collider.gameObject.tag == "Player")
             {
                 StartCoroutine(TransitionToShoot(idleToShootTime));
                 return;
@@ -160,7 +168,7 @@ public class EnemyController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
                 {
-                    if (hit.collider.gameObject == player.gameObject)
+                    if (hit.collider.gameObject.tag == "Player")
                     {
                         StartCoroutine(TransitionToShoot(patrolToShootTime));
                         return;
@@ -188,6 +196,52 @@ public class EnemyController : MonoBehaviour
     }
     #endregion
 
+    #region Alert
+    private void SetAlertState()
+    {
+        currentState = States.ALERT;
+
+        onTransition = false;
+        currentTime = 0f;
+        agent.isStopped = false;
+
+        agent.SetDestination(player.transform.position);
+    }
+
+    private void UpdateAlertState()
+    {
+        if (Vector3.Distance(transform.position, agent.destination) < arriveDistance && !onTransition)
+        {
+            SetIdleState();
+            return;
+        }
+
+        if (Vector3.Distance(transform.position, player.transform.position) < sightDistance && !onTransition)
+        {
+            if (Vector3.Angle(transform.forward, player.transform.position - transform.position) <= sightAngle)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
+                {
+                    if (hit.collider.gameObject.tag == "Player")
+                    {
+                        StartCoroutine(TransitionToShoot(patrolToShootTime));
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void AlertedByShot()
+    {
+        if (currentState != States.SHOOT)
+        {
+            SetAlertState();
+        }
+    }
+    #endregion
+
     #region Shoot
     private void SetShootState()
     {
@@ -211,7 +265,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
         {
-            if (hit.collider.gameObject == player.gameObject)
+            if (hit.collider.gameObject.tag == "Player")
             {
                 if (currentTime >= minTimeBetweenShots)
                 {
@@ -256,19 +310,22 @@ public class EnemyController : MonoBehaviour
         if (player.winByDying)
         {
             //Enemy wins
+            FindObjectOfType<MatchController>().CPUWins();
         }
         else
         {
             //Player wins
+            FindObjectOfType<MatchController>().PlayerWins();
         }
+        currentState = States.NONE;
     }
 
     private void Shoot()
     {
         EnemyBullet currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
+        currentBullet.transform.LookAt(player.transform.position);
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletForce, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), GetComponent<Collider>());
-
         currentBullet.damage = bulletDamage;
     }
 }

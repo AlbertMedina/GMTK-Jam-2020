@@ -38,7 +38,7 @@ public class BulletController : MonoBehaviour
     {
         if(collision.gameObject.tag == "EnemyHead" && canTakeDamage)
         {
-            collision.gameObject.GetComponent<EnemyController>().Hit(headshotDamage);
+            collision.gameObject.transform.parent.GetComponent<EnemyController>().Hit(headshotDamage);
             Destroy(gameObject);
             return;
         }

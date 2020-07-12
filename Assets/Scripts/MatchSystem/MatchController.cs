@@ -8,6 +8,8 @@ public class MatchController : MonoBehaviour
     [Header("Config Options")] 
     
     public int roundLenght;
+
+    [SerializeField] private PlayerController player;
     [SerializeField] private float gravityMultiplier;
     [SerializeField] private float slowMoTime;
     [SerializeField] private float fastMoTime;
@@ -15,15 +17,22 @@ public class MatchController : MonoBehaviour
     [SerializeField] private HUDLogic _hudLogic;
 
     private Match _match;
+    private bool _matchStarted = false;
 
     [HideInInspector] public int playerScore;
     [HideInInspector] public int cpuScore;
 
+    private void Start()
+    {
+        
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !_matchStarted)
         {
             InitMatch();
+            _matchStarted = true;
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -56,7 +65,8 @@ public class MatchController : MonoBehaviour
     private void StartMatch() //After countdown
     {
         hud.SetActive(true);
-        StartCoroutine(_hudLogic.Co_Counter());
+        FindObjectOfType<EnemyController>().SetInitialState();
+        _hudLogic.StartCounter();
     }
     
     public void StopMatch(bool timeOut)
