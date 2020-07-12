@@ -236,6 +236,10 @@ public class PlayerController : MonoBehaviour
                         Shoot();
                         bulletUsed = true;
                     }
+                    else
+                    {
+                        //No ammo sound
+                    }
                 }
             }
             #endregion
@@ -408,6 +412,20 @@ public class PlayerController : MonoBehaviour
         onlyHeadshots = false;
 
         //FindObjectOfType<MatchController>().flag.SetActive(false);
+
+        BulletController[] bulletsInScene = FindObjectsOfType<BulletController>();
+
+        for (int i = 0; i < bulletsInScene.Length; i++)
+        {
+            Destroy(bulletsInScene[i]);
+        }
+
+        EnemyBullet[] enemyBulletsInScene = FindObjectsOfType<EnemyBullet>();
+
+        for (int i = 0; i < enemyBulletsInScene.Length; i++)
+        {
+            Destroy(enemyBulletsInScene[i]);
+        }
 
         //Stats
         yawRotation = transform.rotation.eulerAngles.y;
