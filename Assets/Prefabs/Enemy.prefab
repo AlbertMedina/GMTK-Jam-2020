@@ -9813,7 +9813,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208217665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.541, z: 0.037}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1894393890568444576}
@@ -9829,10 +9829,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.21378219
-  m_Height: 0.71359307
+  m_Radius: 0.3
+  m_Height: 0.8
   m_Direction: 1
-  m_Center: {x: -0.014563799, y: 0.016546756, z: 0.009022832}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1231307020
 GameObject:
   m_ObjectHideFlags: 0
@@ -29160,7 +29160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797474925716153084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1894393890568444576}
@@ -29301,10 +29301,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHealth: 100
   movementSpeed: 5
-  timeInIdle: 3
+  timeInIdle: 2
   idleToShootTime: 1.5
-  patrolToShootTime: 0.75
-  sightAngle: 30
+  patrolToShootTime: 1.25
+  sightAngle: 45
   sightDistance: 10
   arriveDistance: 3
   bullet: {fileID: -6966017979346747213, guid: 19f531d173d5e4d4e9a4566dc07d2385, type: 3}
