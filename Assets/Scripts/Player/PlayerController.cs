@@ -400,7 +400,7 @@ public class PlayerController : MonoBehaviour
     {
         waitToStart = false;
     }
-
+    
     public void ResetRound()
     {
         waitToStart = true;

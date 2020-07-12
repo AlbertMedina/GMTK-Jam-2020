@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MatchController : MonoBehaviour
 {
-    [Header("Config Options")] 
-    
+    [Header("Config Options")]
+
     public int roundLenght;
 
     [SerializeField] private PlayerController player;
@@ -22,9 +22,15 @@ public class MatchController : MonoBehaviour
     [HideInInspector] public int playerScore;
     [HideInInspector] public int cpuScore;
 
-    private void Start()
+    public PlayerController.ShootingRules currentShootingRule;
+    public PlayerController.MovementRules currentMovementRule;
+    public PlayerController.WinningRules currentWinningRule;
+
+    private void Awake()
     {
-        
+        currentShootingRule = PlayerController.ShootingRules.NONE;
+        currentMovementRule = PlayerController.MovementRules.NONE;
+        currentWinningRule = PlayerController.WinningRules.NONE;
     }
 
     private void Update()
@@ -49,16 +55,17 @@ public class MatchController : MonoBehaviour
         _match = new Match();
         _match.Generate();
         Config();
+        player.SetRoundRules(currentShootingRule, currentMovementRule, currentWinningRule);
     }
 
     private void Config()
     {
         ConfigUIController.Instance.Reset();
-        
+
         ConfigBullets();
         ConfigMovement();
         ConfigWinCon();
-        
+
         StartCoroutine(Co_StartMatch());
     }
 
@@ -69,17 +76,11 @@ public class MatchController : MonoBehaviour
         FindObjectOfType<PlayerController>().StartRound();
         _hudLogic.StartCounter();
     }
-    
+
     public void StopMatch(bool timeOut)
     {
         FindObjectOfType<PlayerController>().ResetRound();
-        ResetMatch();
-        if(!timeOut) hud.SetActive(false);
-    }
-
-    private void ResetMatch()
-    {
-        Time.timeScale = 1;
+        if (!timeOut) hud.SetActive(false);
     }
 
     public void PlayerWins()
@@ -102,15 +103,22 @@ public class MatchController : MonoBehaviour
         {
             case 0: //Bouncy Bullets
                 ConfigUIController.Instance.bouncyBullets.SetActive(true);
+                currentShootingRule = PlayerController.ShootingRules.BOUNCING_BULLETS;
                 break;
             case 1: //Heavy Bullets
                 ConfigUIController.Instance.heavyBullets.SetActive(true);
+                currentShootingRule = PlayerController.ShootingRules.GRAVITY_BULLETS;
                 break;
             case 2: //Inverted Axis
                 ConfigUIController.Instance.invertedMouse.SetActive(true);
+                currentShootingRule = PlayerController.ShootingRules.INVERTED_MOUSE;
                 break;
             case 3: //One Shot
                 ConfigUIController.Instance.oneBullet.SetActive(true);
+                currentShootingRule = PlayerController.ShootingRules.ONLY_ONE_BULLET;
+                break;
+            default:
+                currentShootingRule = PlayerController.ShootingRules.NONE;
                 break;
         }
     }
@@ -121,15 +129,22 @@ public class MatchController : MonoBehaviour
         {
             case 0: //SlowMo
                 ConfigUIController.Instance.slowMo.SetActive(true);
+                currentMovementRule = PlayerController.MovementRules.SLOW_MOTION;
                 break;
             case 1: //FastRound
                 ConfigUIController.Instance.quickMovement.SetActive(true);
+                currentMovementRule = PlayerController.MovementRules.HYPERFAST;
                 break;
             case 2: //Inverted Controls
                 ConfigUIController.Instance.invertedControls.SetActive(true);
+                currentMovementRule = PlayerController.MovementRules.INVERTED_CONTROLS;
                 break;
             case 3: //No movement
                 ConfigUIController.Instance.cantMove.SetActive(true);
+                currentMovementRule = PlayerController.MovementRules.CANNOT_MOVE;
+                break;
+            default:
+                currentMovementRule = PlayerController.MovementRules.NONE;
                 break;
         }
     }
@@ -140,15 +155,22 @@ public class MatchController : MonoBehaviour
         {
             case 0: //Die
                 ConfigUIController.Instance.dieToWin.SetActive(true);
+                currentWinningRule = PlayerController.WinningRules.WIN_BY_DYING;
                 break;
             case 1: //Catch the flag
                 ConfigUIController.Instance.catchTheFlag.SetActive(true);
+                currentWinningRule = PlayerController.WinningRules.CATCH_THE_FLAG;
                 break;
             case 2: //Only HeadShots
                 ConfigUIController.Instance.onlyHeadShots.SetActive(true);
+                currentWinningRule = PlayerController.WinningRules.ONLY_HEADSHOTS;
                 break;
             case 3: //Only Melee
                 ConfigUIController.Instance.onlyMelee.SetActive(true);
+                currentWinningRule = PlayerController.WinningRules.ONLY_MELEE;
+                break;
+            default:
+                currentWinningRule = PlayerController.WinningRules.NONE;
                 break;
         }
     }
