@@ -102,8 +102,6 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         roundRules = GetComponent<RoundRules>();
-
-        ResetRound();
     }
 
     void Update()
@@ -375,7 +373,7 @@ public class PlayerController : MonoBehaviour
                 winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
-                //FindObjectOfType<MatchController>().flag.SetActive(true);
+                FindObjectOfType<MatchController>().flag.SetActive(true);
                 catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
@@ -411,7 +409,7 @@ public class PlayerController : MonoBehaviour
         winByDying = false;
         onlyHeadshots = false;
 
-        //FindObjectOfType<MatchController>().flag.SetActive(false);
+        FindObjectOfType<MatchController>().flag.SetActive(false);
 
         BulletController[] bulletsInScene = FindObjectsOfType<BulletController>();
 

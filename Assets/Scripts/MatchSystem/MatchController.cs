@@ -39,8 +39,8 @@ public class MatchController : MonoBehaviour
         currentMovementRule = PlayerController.MovementRules.NONE;
         currentWinningRule = PlayerController.WinningRules.NONE;
 
-        //flag = GameObject.FindGameObjectWithTag("Flag");
-        //flag.SetActive(false);
+        flag = GameObject.FindGameObjectWithTag("Flag");
+        flag.SetActive(false);
     }
 
     private void Update()
