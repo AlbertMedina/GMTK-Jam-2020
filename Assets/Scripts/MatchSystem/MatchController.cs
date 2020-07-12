@@ -39,8 +39,8 @@ public class MatchController : MonoBehaviour
         currentMovementRule = PlayerController.MovementRules.NONE;
         currentWinningRule = PlayerController.WinningRules.NONE;
 
-        flag = GameObject.FindGameObjectWithTag("Flag");
-        flag.SetActive(false);
+        //flag = GameObject.FindGameObjectWithTag("Flag");
+        //flag.SetActive(false);
     }
 
     private void Update()
@@ -65,7 +65,7 @@ public class MatchController : MonoBehaviour
         _match = new Match();
         _match.Generate();
 
-        flag.SetActive(false);
+        FindObjectOfType<PlayerController>().ResetRound();
 
         Config();
         SetPositions();
@@ -106,7 +106,7 @@ public class MatchController : MonoBehaviour
 
     public void StopMatch(bool timeOut)
     {
-        FindObjectOfType<PlayerController>().ResetRound();
+        FindObjectOfType<PlayerController>().FreezePlayer();
         if (!timeOut) hud.SetActive(false);
     }
 

@@ -371,7 +371,7 @@ public class PlayerController : MonoBehaviour
                 winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
-                FindObjectOfType<MatchController>().flag.SetActive(true);
+                //FindObjectOfType<MatchController>().flag.SetActive(true);
                 catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
@@ -385,10 +385,13 @@ public class PlayerController : MonoBehaviour
         waitToStart = false;
     }
     
-    public void ResetRound()
+    public void FreezePlayer()
     {
         waitToStart = true;
-        
+    }
+
+    public void ResetRound()
+    { 
         //Shooting
         invertedAiming = false;
         gravityBullets = false;
@@ -403,6 +406,8 @@ public class PlayerController : MonoBehaviour
         catchTheFlag = false;
         winByDying = false;
         onlyHeadshots = false;
+
+        //FindObjectOfType<MatchController>().flag.SetActive(false);
 
         //Stats
         yawRotation = transform.rotation.eulerAngles.y;
