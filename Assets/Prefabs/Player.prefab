@@ -29110,6 +29110,7 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 5442869848553163969}
   bulletSpeed: 20
+  minTimeBetweenShots: 0.5
   gunAnim: {fileID: 1005795349}
   basicShotParts: {fileID: 1906380132}
   blobShotParts: {fileID: 2105640212504582745}
