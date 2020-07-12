@@ -237,6 +237,7 @@ public class PlayerController : MonoBehaviour
                     else
                     {
                         //No ammo sound
+                        AudioManager.Instance.Play("NoBullet");
                     }
                 }
             }
@@ -272,17 +273,20 @@ public class PlayerController : MonoBehaviour
         if (bouncingBullets)
         {
             ricochetShotParts.Play();
+            AudioManager.Instance.Play("Shoot");
             currentBullet = Instantiate(bulletBouncing, firePoint.position, pitchRotator.rotation);
         }
         else if (gravityBullets)
         {
             blobShotParts.Play();
+            AudioManager.Instance.Play("ShootHeavy");
             currentBullet = Instantiate(bulletGravity, firePoint.position, pitchRotator.rotation);
 
         }
         else
         {
             basicShotParts.Play();
+            AudioManager.Instance.Play("Shoot");
             currentBullet = Instantiate(bullet, firePoint.position, pitchRotator.rotation);
         }
         gunAnim.SetTrigger("Shot");
@@ -312,6 +316,7 @@ public class PlayerController : MonoBehaviour
 
     public void Hit(float damage)
     {
+        AudioManager.Instance.Play("Hit");
         health -= damage;
     }
 

@@ -155,11 +155,11 @@ MonoBehaviour:
     pitch: 1.1
     clip: {fileID: 8300000, guid: 6084ad0fe6c36a9429eefe2e99e9bd67, type: 3}
   - name: Shoot
-    volume: 0.4
+    volume: 0.6
     pitch: 0.9
     clip: {fileID: 8300000, guid: b6b241a4654234848b7e692fc1e4542f, type: 3}
   - name: ShootHeavy
-    volume: 0.5
+    volume: 0.6
     pitch: 0.6
     clip: {fileID: 8300000, guid: b6b241a4654234848b7e692fc1e4542f, type: 3}
   - name: Timeout
@@ -174,14 +174,14 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1.1
     clip: {fileID: 8300000, guid: 730ea69a9a4934e4d90e2db708da6ca3, type: 3}
-  - name: 
-    volume: 0
-    pitch: 0
-    clip: {fileID: 0}
-  - name: 
-    volume: 0
-    pitch: 0
-    clip: {fileID: 0}
+  - name: NoBullet
+    volume: 0.5
+    pitch: 1
+    clip: {fileID: 8300000, guid: 9ea662c423d4ace44a0713101bb93f90, type: 3}
+  - name: Hit
+    volume: 0.9
+    pitch: 1
+    clip: {fileID: 8300000, guid: eea7e9331fce3c443be6fa69ecefecf9, type: 3}
 --- !u!1 &3431830195933606300
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a5c2315bf85ac7c42ad2373e6165c096, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
