@@ -28,6 +28,8 @@ public class MatchController : MonoBehaviour
     private PlayerController.MovementRules currentMovementRule;
     private PlayerController.WinningRules currentWinningRule;
 
+    [HideInInspector] public GameObject flag;
+
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
@@ -36,6 +38,9 @@ public class MatchController : MonoBehaviour
         currentShootingRule = PlayerController.ShootingRules.NONE;
         currentMovementRule = PlayerController.MovementRules.NONE;
         currentWinningRule = PlayerController.WinningRules.NONE;
+
+        flag = GameObject.FindGameObjectWithTag("Flag");
+        flag.SetActive(false);
     }
 
     private void Update()
@@ -59,6 +64,8 @@ public class MatchController : MonoBehaviour
     {
         _match = new Match();
         _match.Generate();
+
+        flag.SetActive(false);
 
         Config();
         SetPositions();

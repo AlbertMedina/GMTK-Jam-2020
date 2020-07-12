@@ -266,6 +266,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag == "Flag" && catchTheFlag)
         {
             //Player wins
+            FindObjectOfType<MatchController>().flag.SetActive(false);
             FindObjectOfType<MatchController>().PlayerWins();
         }
         else if(other.gameObject.tag == "Deadzone")
@@ -393,6 +394,7 @@ public class PlayerController : MonoBehaviour
                 winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
+                FindObjectOfType<MatchController>().flag.SetActive(true);
                 catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
