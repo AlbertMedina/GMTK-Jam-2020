@@ -70,9 +70,11 @@ public class PlayerController : MonoBehaviour
 
     //Winning Condition Rules
     private bool onlyMelee = false;
-    private bool catchTheFlag = false;
-    [HideInInspector] public bool winByDying = false;
+    private bool catchTheFlag = false;   
     private bool onlyHeadshots = false;
+    [HideInInspector] public bool winByDying = false;
+
+    [HideInInspector] public bool waitToStart = true;
 
     public enum ShootingRules
     {
@@ -111,144 +113,147 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        #region Rotation
-
-        float mouseAxisY;
-        float mouseAxisX;
-        
-        if (invertedAiming)
+        if (!waitToStart)
         {
-            mouseAxisY = -Input.GetAxis("Mouse Y");
-            mouseAxisX = -Input.GetAxis("Mouse X");
-        }
-        else
-        {
-            mouseAxisY = Input.GetAxis("Mouse Y");
-            mouseAxisX = Input.GetAxis("Mouse X");
-        }
-        
-        pitchRotation += mouseAxisY * pitchRotationSpeed;
-        pitchRotation = Mathf.Clamp(pitchRotation, minPitchRotation, maxPitchRotation);
+            #region Rotation
 
-        
-        yawRotation += mouseAxisX * yawRotationSpeed;
+            float mouseAxisY;
+            float mouseAxisX;
 
-        transform.rotation = Quaternion.Euler(0.0f, yawRotation, 0.0f);
-        pitchRotator.localRotation = Quaternion.Euler(-pitchRotation, 0.0f, 0.0f);
-        #endregion
-        #region Movement
-        Vector3 forwardVector = new Vector3(Mathf.Sin(yawRotation * Mathf.Deg2Rad), 0.0f, Mathf.Cos(yawRotation * Mathf.Deg2Rad));
-        Vector3 rightVector = new Vector3(Mathf.Sin((yawRotation + 90.0f) * Mathf.Deg2Rad), 0.0f, Mathf.Cos((yawRotation + 90.0f) * Mathf.Deg2Rad));
-
-        Vector3 movement;
-
-        if (Input.GetKey(forwardKey))
-        {
-            if (invertedMovement)
+            if (invertedAiming)
             {
-                movement = -forwardVector;
+                mouseAxisY = -Input.GetAxis("Mouse Y");
+                mouseAxisX = -Input.GetAxis("Mouse X");
             }
             else
             {
-                movement = forwardVector;
-            } 
-        }     
-        else if (Input.GetKey(backwardsKey))
-        {
-            if (invertedMovement)
-            {
-                movement = forwardVector;
+                mouseAxisY = Input.GetAxis("Mouse Y");
+                mouseAxisX = Input.GetAxis("Mouse X");
             }
-            else
+
+            pitchRotation += mouseAxisY * pitchRotationSpeed;
+            pitchRotation = Mathf.Clamp(pitchRotation, minPitchRotation, maxPitchRotation);
+
+
+            yawRotation += mouseAxisX * yawRotationSpeed;
+
+            transform.rotation = Quaternion.Euler(0.0f, yawRotation, 0.0f);
+            pitchRotator.localRotation = Quaternion.Euler(-pitchRotation, 0.0f, 0.0f);
+            #endregion
+            #region Movement
+            Vector3 forwardVector = new Vector3(Mathf.Sin(yawRotation * Mathf.Deg2Rad), 0.0f, Mathf.Cos(yawRotation * Mathf.Deg2Rad));
+            Vector3 rightVector = new Vector3(Mathf.Sin((yawRotation + 90.0f) * Mathf.Deg2Rad), 0.0f, Mathf.Cos((yawRotation + 90.0f) * Mathf.Deg2Rad));
+
+            Vector3 movement;
+
+            if (Input.GetKey(forwardKey))
             {
-                movement = -forwardVector;
-            } 
-        }
-        else
-        {
-            movement = Vector3.zero;
-        }
-
-        if (Input.GetKey(rightKey))
-        {
-            if (invertedMovement)
-            {
-                movement -= rightVector;
-            }
-            else
-            {
-                movement += rightVector;
-            }
-        }
-            
-        else if (Input.GetKey(leftKey))
-        {
-            if (invertedMovement)
-            {
-                movement += rightVector;
-            }
-            else
-            {
-                movement -= rightVector;
-            } 
-        }
-            
-        movement.Normalize();
-
-        movement *= Time.deltaTime * movementSpeed;
-
-        if ((isGrounded || _jumpAssistant.isPlayerInJumpableZone) && Input.GetKeyDown(jumpKey))
-        {
-            verticalSpeed = jumpingSpeed;
-        }
-
-        verticalSpeed += Physics.gravity.y * Time.deltaTime;
-        movement.y = verticalSpeed * Time.deltaTime;
-
-        if (canMove)
-        {
-            characterController.Move(movement);
-        }
-
-        if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, 0.1f))
-        {
-            isGrounded = true;
-            verticalSpeed = 0.0f;
-        }
-        else
-        {
-            isGrounded = false;
-        }
-        #endregion
-        #region Attack
-        currentTime += Time.deltaTime;
-
-        if(currentTime >= minTimeBetweenShots)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (!onlyOneBullet)
+                if (invertedMovement)
                 {
-                    Shoot();
+                    movement = -forwardVector;
                 }
-                else if (!bulletUsed)
+                else
                 {
-                    Shoot();
-                    bulletUsed = true;
+                    movement = forwardVector;
+                }
+            }
+            else if (Input.GetKey(backwardsKey))
+            {
+                if (invertedMovement)
+                {
+                    movement = forwardVector;
+                }
+                else
+                {
+                    movement = -forwardVector;
+                }
+            }
+            else
+            {
+                movement = Vector3.zero;
+            }
+
+            if (Input.GetKey(rightKey))
+            {
+                if (invertedMovement)
+                {
+                    movement -= rightVector;
+                }
+                else
+                {
+                    movement += rightVector;
                 }
             }
 
-            if (Input.GetKeyDown(meleeAttackKey))
+            else if (Input.GetKey(leftKey))
             {
-                MeleeAttack();
-                currentTime = 0f;
+                if (invertedMovement)
+                {
+                    movement += rightVector;
+                }
+                else
+                {
+                    movement -= rightVector;
+                }
             }
-        }
-        #endregion
 
-        if(health <= 0)
-        {
-            Death();
+            movement.Normalize();
+
+            movement *= Time.deltaTime * movementSpeed;
+
+            if ((isGrounded || _jumpAssistant.isPlayerInJumpableZone) && Input.GetKeyDown(jumpKey))
+            {
+                verticalSpeed = jumpingSpeed;
+            }
+
+            verticalSpeed += Physics.gravity.y * Time.deltaTime;
+            movement.y = verticalSpeed * Time.deltaTime;
+
+            if (canMove)
+            {
+                characterController.Move(movement);
+            }
+
+            if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, 0.1f))
+            {
+                isGrounded = true;
+                verticalSpeed = 0.0f;
+            }
+            else
+            {
+                isGrounded = false;
+            }
+            #endregion
+            #region Attack
+            currentTime += Time.deltaTime;
+
+            if (currentTime >= minTimeBetweenShots)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (!onlyOneBullet)
+                    {
+                        Shoot();
+                    }
+                    else if (!bulletUsed)
+                    {
+                        Shoot();
+                        bulletUsed = true;
+                    }
+                }
+
+                if (Input.GetKeyDown(meleeAttackKey))
+                {
+                    MeleeAttack();
+                    currentTime = 0f;
+                }
+            }
+            #endregion
+
+            if (health <= 0)
+            {
+                Death();
+            }
         }
     }
 
@@ -391,8 +396,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void StartRound()
+    {
+        waitToStart = false;
+    }
+
     public void ResetRound()
     {
+        waitToStart = true;
+        
         //Shooting
         invertedAiming = false;
         gravityBullets = false;

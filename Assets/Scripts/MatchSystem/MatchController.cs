@@ -66,11 +66,13 @@ public class MatchController : MonoBehaviour
     {
         hud.SetActive(true);
         FindObjectOfType<EnemyController>().SetInitialState();
+        FindObjectOfType<PlayerController>().StartRound();
         _hudLogic.StartCounter();
     }
     
     public void StopMatch(bool timeOut)
     {
+        FindObjectOfType<PlayerController>().ResetRound();
         ResetMatch();
         if(!timeOut) hud.SetActive(false);
     }
