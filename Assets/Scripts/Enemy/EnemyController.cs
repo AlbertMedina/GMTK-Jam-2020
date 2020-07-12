@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     public float sightDistance;
 
     [Header("Shoot")]
-    public GameObject bullet;
+    public EnemyBullet bullet;
     public Transform firePoint;
     public float minTimeBetweenShots;
     public float maxTimePlayerOffSight;
@@ -54,12 +54,17 @@ public class EnemyController : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
 
         patrolTargets = GameObject.FindGameObjectsWithTag("PatrolAI");
+
+        SetInitialState();
     }
 
     private void Update()
     {
         switch (currentState)
         {
+            case States.INITIAL:
+                UpdateInitialState();
+                break;
             case States.IDLE:
                 UpdateIdleState();
                 break;
@@ -70,17 +75,29 @@ public class EnemyController : MonoBehaviour
                 UpdateShootState();
                 break;
         }
+
+        if(health <= 0f)
+        {
+            Death();
+        }
     }
 
     #region Initial
     private void SetInitialState()
     {
+        currentState = States.INITIAL;
+
+        onTransition = false;
+        currentTime = 0f;
+        agent.isStopped = true;
+
         health = initialHealth;
     }
 
     private void UpdateInitialState()
     {
-
+        //Wait until round starts
+        SetPatrolState();
     }
     #endregion
 
@@ -99,7 +116,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit) && !onTransition)
         {
-            if(hit.collider.gameObject == player)
+            if(hit.collider.gameObject == player.gameObject)
             {
                 StartCoroutine(TransitionToShoot(idleToShootTime));
                 return;
@@ -143,7 +160,7 @@ public class EnemyController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
                 {
-                    if (hit.collider.gameObject == player)
+                    if (hit.collider.gameObject == player.gameObject)
                     {
                         StartCoroutine(TransitionToShoot(patrolToShootTime));
                         return;
@@ -155,16 +172,17 @@ public class EnemyController : MonoBehaviour
 
     private void SearchNewPatrolTarget()
     {
-        if(health == initialHealth)
+        int idx;
+        if (health == initialHealth)
         {
             patrolTargets = patrolTargets.OrderBy((target) => (target.transform.position - transform.position).sqrMagnitude).ToArray();
+            idx = Random.Range(1, 4);
         }
         else
         {
             patrolTargets = patrolTargets.OrderBy((target) => (target.transform.position - player.transform.position).sqrMagnitude).ToArray();
+            idx = Random.Range(0, 3);
         }
-
-        int idx = Random.Range(0, 3);
 
         agent.SetDestination(patrolTargets[idx].transform.position);
     }
@@ -193,7 +211,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
         {
-            if (hit.collider.gameObject == player)
+            if (hit.collider.gameObject == player.gameObject)
             {
                 if (currentTime >= minTimeBetweenShots)
                 {
@@ -223,7 +241,7 @@ public class EnemyController : MonoBehaviour
     }
     #endregion
 
-    private void Hit(float damage)
+    public void Hit(float damage)
     {
         health -= damage;
 
@@ -233,10 +251,24 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void Death()
+    {
+        if (player.winByDying)
+        {
+            //Enemy wins
+        }
+        else
+        {
+            //Player wins
+        }
+    }
+
     private void Shoot()
     {
-        GameObject currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
+        EnemyBullet currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletForce, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), GetComponent<Collider>());
+
+        currentBullet.damage = bulletDamage;
     }
 }

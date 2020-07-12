@@ -52,8 +52,8 @@ GameObject:
   - component: {fileID: 4891055596895183027}
   m_Layer: 0
   m_Name: AI_Transform (10)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -82,8 +82,8 @@ GameObject:
   - component: {fileID: 8887873924360535399}
   m_Layer: 0
   m_Name: AI_Transform (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -112,8 +112,8 @@ GameObject:
   - component: {fileID: 4072218295856536884}
   m_Layer: 0
   m_Name: AI_Transform (7)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -142,8 +142,8 @@ GameObject:
   - component: {fileID: 5930318211444217406}
   m_Layer: 0
   m_Name: AI_Transform (8)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -172,8 +172,8 @@ GameObject:
   - component: {fileID: 3887385874443811901}
   m_Layer: 0
   m_Name: AI_Transform (9)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -202,8 +202,8 @@ GameObject:
   - component: {fileID: 3183532618969778071}
   m_Layer: 0
   m_Name: AI_Transform (0)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -232,8 +232,8 @@ GameObject:
   - component: {fileID: 5072591421001646415}
   m_Layer: 0
   m_Name: AI_Transform (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -262,8 +262,8 @@ GameObject:
   - component: {fileID: 5052314986355435779}
   m_Layer: 0
   m_Name: AI_Transform (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -292,8 +292,8 @@ GameObject:
   - component: {fileID: 1503501588856031491}
   m_Layer: 0
   m_Name: AI_Transform (6)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -322,8 +322,8 @@ GameObject:
   - component: {fileID: 2077101676016996719}
   m_Layer: 0
   m_Name: AI_Transform (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -352,8 +352,8 @@ GameObject:
   - component: {fileID: 4436499628073523325}
   m_Layer: 0
   m_Name: AI_Transform (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: PatrolAI
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

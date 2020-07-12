@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     public Transform firePoint;
     public float bulletSpeed;
     public float minTimeBetweenShots;
+    public float damage;
+    public float headshotDamage;
 
     [Header("VisualShooting")]
     public Animator gunAnim;
@@ -69,7 +71,7 @@ public class PlayerController : MonoBehaviour
     //Winning Condition Rules
     private bool onlyMelee = false;
     private bool catchTheFlag = false;
-    private bool winByDying = false;
+    [HideInInspector] public bool winByDying = false;
     private bool onlyHeadshots = false;
 
     public enum ShootingRules
@@ -256,7 +258,7 @@ public class PlayerController : MonoBehaviour
     {
         if(other.gameObject.tag == "Flag" && catchTheFlag)
         {
-            //Win
+            //Player wins
         }
     }
 
@@ -284,6 +286,9 @@ public class PlayerController : MonoBehaviour
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletSpeed, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), characterController);
 
+        currentBullet.damage = damage;
+        currentBullet.headshotDamage = headshotDamage;
+
         currentBullet.gravityBullet = gravityBullets;
         currentBullet.gravityMultiplier = roundRules.bulletsGravityMultiplier;
         currentBullet.bouncingBullet = bouncingBullets;
@@ -306,11 +311,11 @@ public class PlayerController : MonoBehaviour
     {
         if (winByDying)
         {
-            //Win
+            //Player wins
         }
         else
         {
-            //Lose
+            //Enemy wins
         }
     }
 

@@ -14,6 +14,9 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public bool canTakeDamage;
     [HideInInspector] public bool onlyHeadshots;
 
+    [HideInInspector] public float damage;
+    [HideInInspector] public float headshotDamage;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,17 +38,22 @@ public class BulletController : MonoBehaviour
     {
         if(collision.gameObject.tag == "EnemyHead" && canTakeDamage)
         {
-            //EnemyHit (headshot)
+            collision.gameObject.GetComponent<EnemyController>().Hit(headshotDamage);
+            Destroy(gameObject);
+            return;
         }
         
         if(collision.gameObject.tag == "Enemy" && canTakeDamage && !onlyHeadshots)
         {
-            //EnemyHit
+            collision.gameObject.GetComponent<EnemyController>().Hit(damage);
+            Destroy(gameObject);
+            return;
         }
         
         if (!bouncingBullet)
         {
             Destroy(gameObject);
+            return;
         }
     }
 }
