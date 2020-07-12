@@ -29187,10 +29187,10 @@ MonoBehaviour:
   bulletBouncing: {fileID: -2718618237300116691, guid: c952a44691c33f640b26b0198a9bdb2f,
     type: 3}
   firePoint: {fileID: 5442869848553163969}
-  bulletSpeed: 20
-  minTimeBetweenShots: 0.4
-  damage: 1
-  headshotDamage: 2
+  bulletSpeed: 40
+  minTimeBetweenShots: 0.25
+  damage: 50
+  headshotDamage: 100
   gunAnim: {fileID: 1005795349}
   basicShotParts: {fileID: 1906380132}
   blobShotParts: {fileID: 2105640212504582745}
@@ -29198,6 +29198,7 @@ MonoBehaviour:
   particlesTime: 0.3
   cameraShake: {fileID: 1714694699}
   winByDying: 0
+  waitToStart: 1
 --- !u!114 &1223352026
 MonoBehaviour:
   m_ObjectHideFlags: 0

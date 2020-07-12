@@ -28625,7 +28625,7 @@ GameObject:
   - component: {fileID: 824637849}
   m_Layer: 0
   m_Name: DeadZone (1)
-  m_TagString: Untagged
+  m_TagString: Deadzone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28652,7 +28652,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824637847}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 40.84929, y: 38.837467, z: 0.9999999}
@@ -43717,6 +43717,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 63.946003
       objectReference: {fileID: 0}
+    - target: {fileID: 2205886076337326930, guid: b99f7ae1ac7173145b0c4750cafe6ab9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Deadzone
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205886076337326930, guid: b99f7ae1ac7173145b0c4750cafe6ab9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4383758896494332981, guid: b99f7ae1ac7173145b0c4750cafe6ab9,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -51184,7 +51194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundLenght: 30
-  player: {fileID: 0}
   gravityMultiplier: 0
   slowMoTime: 0
   fastMoTime: 0

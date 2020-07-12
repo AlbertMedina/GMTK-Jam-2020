@@ -13,7 +13,7 @@ public class Match
 
     public void Generate()
     {
-        bulletRules = Random.Range(0, 3);
+        bulletRules = Random.Range(0, 4);
         movementRules = Random.Range(0, 3);
         winConRules = Random.Range(0, 3);
     }

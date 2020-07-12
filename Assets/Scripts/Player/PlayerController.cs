@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public KeyCode rightKey;
     public KeyCode leftKey;
     public KeyCode jumpKey;
-    public KeyCode meleeAttackKey;
 
     [Header("Stats")]
     public float initialHealth;
@@ -66,10 +65,8 @@ public class PlayerController : MonoBehaviour
 
     //Movement Rules
     private bool invertedAiming = false;
-    private bool canMove = true;
 
     //Winning Condition Rules
-    private bool onlyMelee = false;
     private bool catchTheFlag = false;   
     private bool onlyHeadshots = false;
     [HideInInspector] public bool winByDying = false;
@@ -91,7 +88,6 @@ public class PlayerController : MonoBehaviour
         SLOW_MOTION,
         HYPERFAST,
         INVERTED_CONTROLS,
-        CANNOT_MOVE
     }
 
     public enum WinningRules
@@ -100,7 +96,6 @@ public class PlayerController : MonoBehaviour
         WIN_BY_DYING,
         CATCH_THE_FLAG,
         ONLY_HEADSHOTS,
-        ONLY_MELEE
     }
 
     private void Awake()
@@ -209,15 +204,16 @@ public class PlayerController : MonoBehaviour
             verticalSpeed += Physics.gravity.y * Time.deltaTime;
             movement.y = verticalSpeed * Time.deltaTime;
 
-            if (canMove)
-            {
-                characterController.Move(movement);
-            }
+            characterController.Move(movement);
 
-            if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, 0.1f))
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, out hit, 0.1f))
             {
-                isGrounded = true;
-                verticalSpeed = 0.0f;
+                if(hit.collider.gameObject.tag != "Deadzone")
+                {
+                    isGrounded = true;
+                    verticalSpeed = 0.0f;
+                }
             }
             else
             {
@@ -241,12 +237,6 @@ public class PlayerController : MonoBehaviour
                         bulletUsed = true;
                     }
                 }
-
-                if (Input.GetKeyDown(meleeAttackKey))
-                {
-                    MeleeAttack();
-                    currentTime = 0f;
-                }
             }
             #endregion
 
@@ -262,7 +252,12 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag == "Flag" && catchTheFlag)
         {
             //Player wins
+            FindObjectOfType<MatchController>().flag.SetActive(false);
             FindObjectOfType<MatchController>().PlayerWins();
+        }
+        else if(other.gameObject.tag == "Deadzone")
+        {
+            health = 0f;
         }
     }
 
@@ -300,7 +295,6 @@ public class PlayerController : MonoBehaviour
         currentBullet.gravityMultiplier = roundRules.bulletsGravityMultiplier;
         currentBullet.bouncingBullet = bouncingBullets;
 
-        currentBullet.canTakeDamage = !onlyMelee;
         currentBullet.onlyHeadshots = onlyHeadshots;
     }
     
@@ -312,11 +306,6 @@ public class PlayerController : MonoBehaviour
         {
             enemies[i].AlertedByShot();
         }
-    }
-
-    private void MeleeAttack()
-    {
-
     }
 
     public void Hit(float damage)
@@ -372,9 +361,6 @@ public class PlayerController : MonoBehaviour
             case MovementRules.INVERTED_CONTROLS:
                 invertedMovement = true;
                 break;
-            case MovementRules.CANNOT_MOVE:
-                canMove = false;
-                break;
         }
 
         switch (winningRule)
@@ -385,13 +371,11 @@ public class PlayerController : MonoBehaviour
                 winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
+                //FindObjectOfType<MatchController>().flag.SetActive(true);
                 catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
                 onlyHeadshots = true;
-                break;
-            case WinningRules.ONLY_MELEE:
-                onlyMelee = true;
                 break;
         }
     }
@@ -401,10 +385,13 @@ public class PlayerController : MonoBehaviour
         waitToStart = false;
     }
     
-    public void ResetRound()
+    public void FreezePlayer()
     {
         waitToStart = true;
-        
+    }
+
+    public void ResetRound()
+    { 
         //Shooting
         invertedAiming = false;
         gravityBullets = false;
@@ -414,13 +401,13 @@ public class PlayerController : MonoBehaviour
         //Movement
         Time.timeScale = 1f;
         invertedMovement = false;
-        canMove = true;
 
         //Winning Condition
-        onlyMelee = false;
         catchTheFlag = false;
         winByDying = false;
         onlyHeadshots = false;
+
+        //FindObjectOfType<MatchController>().flag.SetActive(false);
 
         //Stats
         yawRotation = transform.rotation.eulerAngles.y;

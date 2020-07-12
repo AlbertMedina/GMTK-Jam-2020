@@ -9,6 +9,7 @@ TagManager:
   - EnemyHead
   - PatrolAI
   - SpawnPosition
+  - Deadzone
   layers:
   - Default
   - TransparentFX

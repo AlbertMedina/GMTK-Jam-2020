@@ -28,6 +28,8 @@ public class MatchController : MonoBehaviour
     private PlayerController.MovementRules currentMovementRule;
     private PlayerController.WinningRules currentWinningRule;
 
+    [HideInInspector] public GameObject flag;
+
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
@@ -36,6 +38,9 @@ public class MatchController : MonoBehaviour
         currentShootingRule = PlayerController.ShootingRules.NONE;
         currentMovementRule = PlayerController.MovementRules.NONE;
         currentWinningRule = PlayerController.WinningRules.NONE;
+
+        //flag = GameObject.FindGameObjectWithTag("Flag");
+        //flag.SetActive(false);
     }
 
     private void Update()
@@ -60,6 +65,8 @@ public class MatchController : MonoBehaviour
         _match = new Match();
         _match.Generate();
 
+        FindObjectOfType<PlayerController>().ResetRound();
+
         Config();
         SetPositions();
 
@@ -80,11 +87,11 @@ public class MatchController : MonoBehaviour
     private void SetPositions()
     {
         List<GameObject> spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPosition").ToList();
-        Debug.Log(spawnPoints.Count);
+
         int idx = UnityEngine.Random.Range(0, spawnPoints.Count);
         player.transform.position = spawnPoints[idx].transform.position;
         spawnPoints.RemoveAt(idx);
-        Debug.Log(spawnPoints.Count);
+        
         idx = UnityEngine.Random.Range(0, spawnPoints.Count);
         enemy.transform.position = spawnPoints[idx].transform.position;
     }
@@ -99,7 +106,7 @@ public class MatchController : MonoBehaviour
 
     public void StopMatch(bool timeOut)
     {
-        FindObjectOfType<PlayerController>().ResetRound();
+        FindObjectOfType<PlayerController>().FreezePlayer();
         if (!timeOut) hud.SetActive(false);
     }
 
@@ -159,10 +166,6 @@ public class MatchController : MonoBehaviour
                 ConfigUIController.Instance.invertedControls.SetActive(true);
                 currentMovementRule = PlayerController.MovementRules.INVERTED_CONTROLS;
                 break;
-            case 3: //No movement
-                ConfigUIController.Instance.cantMove.SetActive(true);
-                currentMovementRule = PlayerController.MovementRules.CANNOT_MOVE;
-                break;
             default:
                 currentMovementRule = PlayerController.MovementRules.NONE;
                 break;
@@ -184,10 +187,6 @@ public class MatchController : MonoBehaviour
             case 2: //Only HeadShots
                 ConfigUIController.Instance.onlyHeadShots.SetActive(true);
                 currentWinningRule = PlayerController.WinningRules.ONLY_HEADSHOTS;
-                break;
-            case 3: //Only Melee
-                ConfigUIController.Instance.onlyMelee.SetActive(true);
-                currentWinningRule = PlayerController.WinningRules.ONLY_MELEE;
                 break;
             default:
                 currentWinningRule = PlayerController.WinningRules.NONE;
