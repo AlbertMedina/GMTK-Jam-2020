@@ -29302,8 +29302,8 @@ MonoBehaviour:
   initialHealth: 100
   movementSpeed: 5
   timeInIdle: 2
-  idleToShootTime: 1
-  patrolToShootTime: 0.75
+  idleToShootTime: 1.5
+  patrolToShootTime: 1.25
   sightAngle: 45
   sightDistance: 10
   arriveDistance: 3
