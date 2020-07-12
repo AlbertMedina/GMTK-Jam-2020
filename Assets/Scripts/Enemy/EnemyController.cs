@@ -319,9 +319,9 @@ public class EnemyController : MonoBehaviour
     private void Shoot()
     {
         EnemyBullet currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
+        currentBullet.transform.LookAt(player.transform.position);
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletForce, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), GetComponent<Collider>());
-
         currentBullet.damage = bulletDamage;
     }
 }
