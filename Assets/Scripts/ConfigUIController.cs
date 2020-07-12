@@ -63,4 +63,9 @@ public class ConfigUIController : MonoBehaviour
     {
         anim.SetTrigger("RemoveConfig");
     }
+
+    public void PlaySound()
+    {
+        AudioManager.Instance.Play("ConfigSpawn");
+    }
 }

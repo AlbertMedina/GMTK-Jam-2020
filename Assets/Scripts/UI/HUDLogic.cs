@@ -44,6 +44,7 @@ public class HUDLogic : MonoBehaviour
     {
         if(_counterCoroutine != null) StopCoroutine(_counterCoroutine);
         StartCoroutine(Co_TimeOut());
+        AudioManager.Instance.Play("Timeout");
     }
 
     public void StartCounter()
