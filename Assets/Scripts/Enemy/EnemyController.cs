@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     public float sightDistance;
 
     [Header("Shoot")]
-    public GameObject bullet;
+    public EnemyBullet bullet;
     public Transform firePoint;
     public float minTimeBetweenShots;
     public float maxTimePlayerOffSight;
@@ -76,10 +76,9 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
+        if(health <= 0f)
         {
-            Debug.Log(hit.collider.gameObject);
+            Death();
         }
     }
 
@@ -117,7 +116,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out hit) && !onTransition)
         {
-            if(hit.collider.gameObject == player)
+            if(hit.collider.gameObject == player.gameObject)
             {
                 StartCoroutine(TransitionToShoot(idleToShootTime));
                 return;
@@ -161,7 +160,7 @@ public class EnemyController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
                 {
-                    if (hit.collider.gameObject == player)
+                    if (hit.collider.gameObject == player.gameObject)
                     {
                         StartCoroutine(TransitionToShoot(patrolToShootTime));
                         return;
@@ -212,7 +211,7 @@ public class EnemyController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
         {
-            if (hit.collider.gameObject == player)
+            if (hit.collider.gameObject == player.gameObject)
             {
                 if (currentTime >= minTimeBetweenShots)
                 {
@@ -252,10 +251,24 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void Death()
+    {
+        if (player.winByDying)
+        {
+            //Enemy wins
+        }
+        else
+        {
+            //Player wins
+        }
+    }
+
     private void Shoot()
     {
-        GameObject currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
+        EnemyBullet currentBullet = Instantiate(bullet, firePoint.position, transform.rotation);
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletForce, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), GetComponent<Collider>());
+
+        currentBullet.damage = bulletDamage;
     }
 }

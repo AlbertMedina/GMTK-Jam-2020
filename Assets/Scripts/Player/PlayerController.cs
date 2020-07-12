@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
     //Winning Condition Rules
     private bool onlyMelee = false;
     private bool catchTheFlag = false;
-    private bool winByDying = false;
+    [HideInInspector] public bool winByDying = false;
     private bool onlyHeadshots = false;
 
     public enum ShootingRules
@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour
     {
         if(other.gameObject.tag == "Flag" && catchTheFlag)
         {
-            //Win
+            //Player wins
         }
     }
 
@@ -310,11 +310,11 @@ public class PlayerController : MonoBehaviour
     {
         if (winByDying)
         {
-            //Win
+            //Player wins
         }
         else
         {
-            //Lose
+            //Enemy wins
         }
     }
 
