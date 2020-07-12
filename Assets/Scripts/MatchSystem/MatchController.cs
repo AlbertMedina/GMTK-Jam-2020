@@ -66,7 +66,7 @@ public class MatchController : MonoBehaviour
     {
         hud.SetActive(true);
         FindObjectOfType<EnemyController>().SetInitialState();
-        StartCoroutine(_hudLogic.Co_Counter());
+        _hudLogic.StartCounter();
     }
     
     public void StopMatch(bool timeOut)
