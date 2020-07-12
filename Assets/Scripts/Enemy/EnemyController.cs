@@ -54,12 +54,17 @@ public class EnemyController : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
 
         patrolTargets = GameObject.FindGameObjectsWithTag("PatrolAI");
+
+        SetInitialState();
     }
 
     private void Update()
     {
         switch (currentState)
         {
+            case States.INITIAL:
+                UpdateInitialState();
+                break;
             case States.IDLE:
                 UpdateIdleState();
                 break;
@@ -75,12 +80,19 @@ public class EnemyController : MonoBehaviour
     #region Initial
     private void SetInitialState()
     {
+        currentState = States.INITIAL;
+
+        onTransition = false;
+        currentTime = 0f;
+        agent.isStopped = true;
+
         health = initialHealth;
     }
 
     private void UpdateInitialState()
     {
-
+        //Wait until round starts
+        SetPatrolState();
     }
     #endregion
 
