@@ -224,6 +224,8 @@ MonoBehaviour:
   fastMoTime: 0
   hud: {fileID: 439507778}
   _hudLogic: {fileID: 439507780}
+  playerScore: 0
+  cpuScore: 0
 --- !u!114 &399828231
 MonoBehaviour:
   m_ObjectHideFlags: 0
