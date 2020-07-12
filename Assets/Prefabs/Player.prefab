@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 485751071}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BasicParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 999282827}
   - component: {fileID: 999282829}
   - component: {fileID: 999282828}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteSheet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4853,6 +4853,82 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &1064565076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1064565079}
+  - component: {fileID: 1064565077}
+  - component: {fileID: 1064565078}
+  - component: {fileID: 8213344389972943521}
+  m_Layer: 9
+  m_Name: JumpAssistant
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1064565079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064565076}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.55, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5442869847963085648}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1064565077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064565076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c9647545e601d4099fcafaae4fcee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerInJumpableZone: 0
+--- !u!136 &1064565078
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064565076}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.12, z: 0}
+--- !u!54 &8213344389972943521
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064565076}
+  serializedVersion: 2
+  m_Mass: 0.01
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1769494027
 GameObject:
   m_ObjectHideFlags: 0
@@ -4864,7 +4940,7 @@ GameObject:
   - component: {fileID: 1769494028}
   - component: {fileID: 1769494030}
   - component: {fileID: 1769494029}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteSheet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9686,7 +9762,7 @@ GameObject:
   - component: {fileID: 1906380130}
   - component: {fileID: 1906380132}
   - component: {fileID: 1906380131}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SmallCircles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14498,7 +14574,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 551983585810370981}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ReboundParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14531,7 +14607,7 @@ GameObject:
   - component: {fileID: 551983586255740227}
   - component: {fileID: 551983586255740285}
   - component: {fileID: 551983586255740284}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SmallCircles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19344,7 +19420,7 @@ GameObject:
   - component: {fileID: 551983586280798016}
   - component: {fileID: 551983586280798018}
   - component: {fileID: 551983586280798017}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteSheet2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24167,7 +24243,7 @@ GameObject:
   - component: {fileID: 551983586668141817}
   - component: {fileID: 551983586668141819}
   - component: {fileID: 551983586668141818}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteSheet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28988,7 +29064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7957475831584423638}
   - component: {fileID: 2059823734}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29037,7 +29113,7 @@ GameObject:
   - component: {fileID: 5442869847963085655}
   - component: {fileID: 5442869847963085649}
   - component: {fileID: 1223352026}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29056,6 +29132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5442869849157219546}
+  - {fileID: 1064565079}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29096,8 +29173,9 @@ MonoBehaviour:
   jumpKey: 32
   meleeAttackKey: 102
   initialHealth: 100
-  movementSpeed: 10
+  movementSpeed: 6
   jumpingSpeed: 5
+  _jumpAssistant: {fileID: 1064565077}
   pitchRotator: {fileID: 5442869849157219546}
   maxPitchRotation: 50
   minPitchRotation: -80
@@ -29109,7 +29187,9 @@ MonoBehaviour:
   bulletBouncing: {fileID: -2718618237300116691, guid: c952a44691c33f640b26b0198a9bdb2f,
     type: 3}
   firePoint: {fileID: 5442869848553163969}
+
   bulletSpeed: 20
+  minTimeBetweenShots: 0.5
   gunAnim: {fileID: 1005795349}
   basicShotParts: {fileID: 1906380132}
   blobShotParts: {fileID: 2105640212504582745}
@@ -29140,7 +29220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5442869848553163969}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29177,7 +29257,7 @@ GameObject:
   - component: {fileID: 5442869848665308277}
   - component: {fileID: 5442869848665308278}
   - component: {fileID: 1714694699}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -29378,7 +29458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5442869849157219546}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PitchRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29507,6 +29587,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 2105640211390947795, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2105640211799187542, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
@@ -29586,6 +29671,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2105640211799187561, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2105640211841272425, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
         type: 3}
@@ -29667,6 +29757,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 2105640211841272428, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2105640212113053172, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
         type: 3}
       propertyPath: playOnAwake
@@ -29742,6 +29837,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2105640212113053175, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2105640212311698574, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29806,6 +29906,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2105640212311698575, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca, type: 3}
@@ -29888,6 +29993,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gun
       objectReference: {fileID: 0}
+    - target: {fileID: 3420613920915742422, guid: ba5326e6fa8a79143be953b9d56da15d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3535062348271830515, guid: ba5326e6fa8a79143be953b9d56da15d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -29918,10 +30028,20 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4682436649092978934, guid: ba5326e6fa8a79143be953b9d56da15d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6654520532636225232, guid: ba5326e6fa8a79143be953b9d56da15d,
         type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654520532636225237, guid: ba5326e6fa8a79143be953b9d56da15d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba5326e6fa8a79143be953b9d56da15d, type: 3}
