@@ -7,11 +7,13 @@ public class MatchController : MonoBehaviour
 {
     [Header("Config Options")] 
     
+    public int roundLenght;
     [SerializeField] private float gravityMultiplier;
     [SerializeField] private float slowMoTime;
     [SerializeField] private float fastMoTime;
-    
-    
+    [SerializeField] private GameObject hud;
+    [SerializeField] private HUDLogic _hudLogic;
+
     private Match _match;
 
     private void Update()
@@ -19,6 +21,14 @@ public class MatchController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             InitMatch();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerWins();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CPUWins();
         }
     }
 
@@ -37,23 +47,36 @@ public class MatchController : MonoBehaviour
         ConfigMovement();
         ConfigWinCon();
         
-        ConfigUIController.Instance.Play();
         StartCoroutine(Co_StartMatch());
     }
 
     private void StartMatch() //After countdown
     {
-        
+        hud.SetActive(true);
+        StartCoroutine(_hudLogic.Co_Counter());
     }
 
     public void StopMatch()
     {
         ResetMatch();
+        hud.SetActive(false);
     }
 
     private void ResetMatch()
     {
         Time.timeScale = 1;
+    }
+
+    public void PlayerWins()
+    {
+        _hudLogic.PlayerWins();
+        StopMatch();
+    }
+
+    public void CPUWins()
+    {
+        _hudLogic.CPUWins();
+        StopMatch();
     }
 
     private void ConfigBullets()
@@ -115,9 +138,11 @@ public class MatchController : MonoBehaviour
 
     private IEnumerator Co_StartMatch()
     {
+        yield return new WaitForSecondsRealtime(0.5f);
+        ConfigUIController.Instance.Play();
         yield return new WaitForSecondsRealtime(3.5f);
         ConfigUIController.Instance.Remove();
-        yield return new WaitForSecondsRealtime(0.75f);
+        yield return new WaitForSecondsRealtime(0.5f);
         StartCoroutine(Co_Countdown());
     }
 
