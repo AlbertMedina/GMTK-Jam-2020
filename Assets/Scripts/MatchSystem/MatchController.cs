@@ -101,13 +101,13 @@ public class MatchController : MonoBehaviour
     {
         hud.SetActive(true);
         enemy.SetInitialState();
-        player.StartRound();
+        player.FreezePlayer(false);
         _hudLogic.StartCounter();
     }
 
     public void StopMatch(bool timeOut)
     {
-        player.FreezePlayer();
+        player.FreezePlayer(true);
         enemy.FreezeEnemy();
         if (!timeOut) hud.SetActive(false);
     }

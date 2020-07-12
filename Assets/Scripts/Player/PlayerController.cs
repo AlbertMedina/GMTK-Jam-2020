@@ -381,15 +381,10 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
-    public void StartRound()
-    {
-        waitToStart = false;
-    }
     
-    public void FreezePlayer()
+    public void FreezePlayer(bool freeze)
     {
-        waitToStart = true;
+        waitToStart = freeze;
     }
 
     public void ResetRound()
