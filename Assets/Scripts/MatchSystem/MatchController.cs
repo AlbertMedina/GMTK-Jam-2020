@@ -22,9 +22,9 @@ public class MatchController : MonoBehaviour
     [HideInInspector] public int playerScore;
     [HideInInspector] public int cpuScore;
 
-    public PlayerController.ShootingRules currentShootingRule;
-    public PlayerController.MovementRules currentMovementRule;
-    public PlayerController.WinningRules currentWinningRule;
+    private PlayerController.ShootingRules currentShootingRule;
+    private PlayerController.MovementRules currentMovementRule;
+    private PlayerController.WinningRules currentWinningRule;
 
     private void Awake()
     {
