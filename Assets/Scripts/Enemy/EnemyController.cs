@@ -47,7 +47,8 @@ public class EnemyController : MonoBehaviour
         IDLE,
         PATROL,
         ALERT,
-        SHOOT
+        SHOOT, 
+        NONE
     }
 
     private States currentState;
@@ -58,8 +59,8 @@ public class EnemyController : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
 
         patrolTargets = GameObject.FindGameObjectsWithTag("PatrolAI");
-
-        SetInitialState();
+        currentState = States.NONE;
+        health = initialHealth;
     }
 
     private void Update()
@@ -83,14 +84,14 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-        if(health <= 0f)
+        if(health <= 0f && currentState != States.NONE)
         {
             Death();
         }
     }
 
     #region Initial
-    private void SetInitialState()
+    public void SetInitialState()
     {
         currentState = States.INITIAL;
 
@@ -309,11 +310,14 @@ public class EnemyController : MonoBehaviour
         if (player.winByDying)
         {
             //Enemy wins
+            FindObjectOfType<MatchController>().CPUWins();
         }
         else
         {
             //Player wins
+            FindObjectOfType<MatchController>().PlayerWins();
         }
+        currentState = States.NONE;
     }
 
     private void Shoot()
