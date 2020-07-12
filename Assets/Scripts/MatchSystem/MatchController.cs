@@ -90,6 +90,7 @@ public class MatchController : MonoBehaviour
 
         int idx = UnityEngine.Random.Range(0, spawnPoints.Count);
         player.transform.position = spawnPoints[idx].transform.position;
+        player.transform.rotation = spawnPoints[idx].transform.rotation;
         spawnPoints.RemoveAt(idx);
         
         idx = UnityEngine.Random.Range(0, spawnPoints.Count);
