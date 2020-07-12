@@ -29187,16 +29187,16 @@ MonoBehaviour:
   bulletBouncing: {fileID: -2718618237300116691, guid: c952a44691c33f640b26b0198a9bdb2f,
     type: 3}
   firePoint: {fileID: 5442869848553163969}
-  bulletSpeed: 0
-  minTimeBetweenShots: 0
-  damage: 0
-  headshotDamage: 0
-  gunAnim: {fileID: 0}
-  basicShotParts: {fileID: 0}
-  blobShotParts: {fileID: 0}
-  ricochetShotParts: {fileID: 0}
+  bulletSpeed: 20
+  minTimeBetweenShots: 0.4
+  damage: 1
+  headshotDamage: 2
+  gunAnim: {fileID: 1005795349}
+  basicShotParts: {fileID: 1906380132}
+  blobShotParts: {fileID: 2105640212504582745}
+  ricochetShotParts: {fileID: 551983586280798018}
   particlesTime: 0.3
-  cameraShake: {fileID: 0}
+  cameraShake: {fileID: 1714694699}
   winByDying: 0
 --- !u!114 &1223352026
 MonoBehaviour:
@@ -29916,6 +29916,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca, type: 3}
+--- !u!198 &2105640212504582745 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2105640212113053172, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 417058733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2105640212440163107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2105640212311698574, guid: 4d2a4d43f97ccbb4f90d54fa873c13ca,
@@ -30041,15 +30047,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba5326e6fa8a79143be953b9d56da15d, type: 3}
---- !u!1 &7273457943498151715 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3420613920915742422, guid: ba5326e6fa8a79143be953b9d56da15d,
-    type: 3}
-  m_PrefabInstance: {fileID: 5442869849850317301}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5957095375090591024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1811344131606621381, guid: ba5326e6fa8a79143be953b9d56da15d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5442869849850317301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7273457943498151715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3420613920915742422, guid: ba5326e6fa8a79143be953b9d56da15d,
     type: 3}
   m_PrefabInstance: {fileID: 5442869849850317301}
   m_PrefabAsset: {fileID: 0}
