@@ -29302,8 +29302,8 @@ MonoBehaviour:
   initialHealth: 100
   movementSpeed: 5
   timeInIdle: 2
-  idleToShootTime: 1.5
-  patrolToShootTime: 1.25
+  idleToShootTime: 0.75
+  patrolToShootTime: 0.5
   sightAngle: 45
   sightDistance: 10
   arriveDistance: 3
@@ -29312,7 +29312,7 @@ MonoBehaviour:
   minTimeBetweenShots: 1
   maxTimePlayerOffSight: 2
   bulletForce: 15
-  bulletDamage: 0
+  bulletDamage: 50
   anim: {fileID: 1483010125}
 --- !u!95 &1483010125
 Animator:
