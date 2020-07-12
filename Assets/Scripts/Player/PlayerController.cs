@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public BulletController bulletBouncing;
     public Transform firePoint;
     public float bulletSpeed;
+    public float minTimeBetweenShots;
 
     [Header("VisualShooting")]
     public Animator gunAnim;
@@ -44,6 +45,8 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController characterController;
     private RoundRules roundRules;
+
+    private float currentTime;
 
     private float yawRotation;
     private float pitchRotation;
@@ -100,18 +103,7 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         roundRules = GetComponent<RoundRules>();
 
-        yawRotation = transform.rotation.eulerAngles.y;
-        pitchRotation = pitchRotator.localRotation.eulerAngles.x;
-
-        verticalSpeed = 0f;
-        isGrounded = false;
-
-        health = initialHealth;
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        SetRoundRules(ShootingRules.NONE, MovementRules.NONE, WinningRules.NONE);
+        ResetRound();
     }
 
     void Update()
@@ -226,22 +218,30 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
         #region Attack
-        if (Input.GetMouseButtonDown(0))
-        {
-            if(!onlyOneBullet)
-            {
-                Shoot();
-            }
-            else if (!bulletUsed)
-            {
-                Shoot();
-                bulletUsed = true;
-            }
-        }
+        currentTime += Time.deltaTime;
 
-        if (Input.GetKeyDown(meleeAttackKey))
+        if(currentTime >= minTimeBetweenShots)
         {
-            MeleeAttack();
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!onlyOneBullet)
+                {
+                    Shoot();
+                    currentTime = 0f;
+                }
+                else if (!bulletUsed)
+                {
+                    Shoot();
+                    bulletUsed = true;
+                    currentTime = 0f;
+                }
+            }
+
+            if (Input.GetKeyDown(meleeAttackKey))
+            {
+                MeleeAttack();
+                currentTime = 0f;
+            }
         }
         #endregion
 
@@ -370,20 +370,37 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-    public void ResetRules()
+
+    public void ResetRound()
     {
+        //Shooting
         invertedAiming = false;
         gravityBullets = false;
         bouncingBullets = false;
         onlyOneBullet = false;
 
+        //Movement
         Time.timeScale = 1f;
         invertedMovement = false;
         canMove = true;
 
+        //Winning Condition
         onlyMelee = false;
         catchTheFlag = false;
         winByDying = false;
         onlyHeadshots = false;
+
+        //Stats
+        yawRotation = transform.rotation.eulerAngles.y;
+        pitchRotation = pitchRotator.localRotation.eulerAngles.x;
+
+        verticalSpeed = 0f;
+        isGrounded = false;
+
+        health = initialHealth;
+        currentTime = 0f;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
