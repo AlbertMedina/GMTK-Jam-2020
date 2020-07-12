@@ -29313,6 +29313,7 @@ MonoBehaviour:
   maxTimePlayerOffSight: 2
   bulletForce: 15
   bulletDamage: 0
+  anim: {fileID: 1483010125}
 --- !u!95 &1483010125
 Animator:
   serializedVersion: 3
