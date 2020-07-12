@@ -7,13 +7,22 @@ using UnityEngine;
 public class HUDLogic : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI counter;
+    [SerializeField] private TextMeshProUGUI playerScore;
+    [SerializeField] private TextMeshProUGUI cpuScore;
     [SerializeField] private ResultsUILogic _resultsUiLogic;
+    [SerializeField] private GameObject _timeOut;
 
     private MatchController _matchController;
 
     private void Awake()
     {
         _matchController = FindObjectOfType<MatchController>();
+    }
+
+    private void OnEnable()
+    {
+        playerScore.text = _matchController.playerScore.ToString();
+        cpuScore.text = _matchController.cpuScore.ToString();
     }
 
     public void PlayerWins()
@@ -30,6 +39,12 @@ public class HUDLogic : MonoBehaviour
         StopAllCoroutines();
     }
 
+    private void TimeOut()
+    {
+        StopAllCoroutines();
+        StartCoroutine(Co_TimeOut());
+    }
+
     public IEnumerator Co_Counter()
     {
         int seconds = _matchController.roundLenght;
@@ -40,6 +55,16 @@ public class HUDLogic : MonoBehaviour
             seconds--;
             counter.text = seconds.ToString();
         }
-        _matchController.StopMatch();
+        TimeOut();
+    }
+
+    private IEnumerator Co_TimeOut()
+    {
+        _matchController.StopMatch(true);
+        _timeOut.SetActive(true);
+        yield return new WaitForSecondsRealtime(3);
+        _timeOut.SetActive(false);
+        gameObject.SetActive(false);
+        _matchController.InitMatch();
     }
 }

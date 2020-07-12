@@ -16,6 +16,9 @@ public class MatchController : MonoBehaviour
 
     private Match _match;
 
+    [HideInInspector] public int playerScore;
+    [HideInInspector] public int cpuScore;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -55,11 +58,11 @@ public class MatchController : MonoBehaviour
         hud.SetActive(true);
         StartCoroutine(_hudLogic.Co_Counter());
     }
-
-    public void StopMatch()
+    
+    public void StopMatch(bool timeOut)
     {
         ResetMatch();
-        hud.SetActive(false);
+        if(!timeOut) hud.SetActive(false);
     }
 
     private void ResetMatch()
@@ -69,14 +72,16 @@ public class MatchController : MonoBehaviour
 
     public void PlayerWins()
     {
+        playerScore++;
         _hudLogic.PlayerWins();
-        StopMatch();
+        StopMatch(false);
     }
 
     public void CPUWins()
     {
+        cpuScore++;
         _hudLogic.CPUWins();
-        StopMatch();
+        StopMatch(false);
     }
 
     private void ConfigBullets()
