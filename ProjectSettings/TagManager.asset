@@ -8,6 +8,7 @@ TagManager:
   - Flag
   - EnemyHead
   - PatrolAI
+  - SpawnPosition
   layers:
   - Default
   - TransparentFX

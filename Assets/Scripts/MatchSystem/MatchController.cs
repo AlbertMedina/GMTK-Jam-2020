@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MatchController : MonoBehaviour
@@ -9,7 +10,8 @@ public class MatchController : MonoBehaviour
 
     public int roundLenght;
 
-    [SerializeField] private PlayerController player;
+    private PlayerController player;
+    private EnemyController enemy;
     [SerializeField] private float gravityMultiplier;
     [SerializeField] private float slowMoTime;
     [SerializeField] private float fastMoTime;
@@ -28,6 +30,9 @@ public class MatchController : MonoBehaviour
 
     private void Awake()
     {
+        player = FindObjectOfType<PlayerController>();
+        enemy = FindObjectOfType<EnemyController>();
+        
         currentShootingRule = PlayerController.ShootingRules.NONE;
         currentMovementRule = PlayerController.MovementRules.NONE;
         currentWinningRule = PlayerController.WinningRules.NONE;
@@ -54,7 +59,10 @@ public class MatchController : MonoBehaviour
     {
         _match = new Match();
         _match.Generate();
+
         Config();
+        SetPositions();
+
         player.SetRoundRules(currentShootingRule, currentMovementRule, currentWinningRule);
     }
 
@@ -67,6 +75,18 @@ public class MatchController : MonoBehaviour
         ConfigWinCon();
 
         StartCoroutine(Co_StartMatch());
+    }
+
+    private void SetPositions()
+    {
+        List<GameObject> spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPosition").ToList();
+        Debug.Log(spawnPoints.Count);
+        int idx = UnityEngine.Random.Range(0, spawnPoints.Count);
+        player.transform.position = spawnPoints[idx].transform.position;
+        spawnPoints.RemoveAt(idx);
+        Debug.Log(spawnPoints.Count);
+        idx = UnityEngine.Random.Range(0, spawnPoints.Count);
+        enemy.transform.position = spawnPoints[idx].transform.position;
     }
 
     private void StartMatch() //After countdown

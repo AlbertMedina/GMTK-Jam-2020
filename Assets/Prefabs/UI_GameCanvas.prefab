@@ -2297,6 +2297,17 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1957867936503918082, guid: fefa0a65ad237e144980abfa829a5e4d,
+        type: 3}
+      propertyPath: m_text
+      value: 'Catch
+
+        the
+
+        flag
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 1957867936980611213, guid: fefa0a65ad237e144980abfa829a5e4d,
         type: 3}
       propertyPath: m_textInfo.characterCount
