@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public Transform firePoint;
     public float bulletSpeed;
     public float minTimeBetweenShots;
+    public float damage;
+    public float headshotDamage;
 
     [Header("VisualShooting")]
     public Animator gunAnim;
@@ -282,6 +284,9 @@ public class PlayerController : MonoBehaviour
         cameraShake.ShakeCamera(0.4f, 0.2f);
         currentBullet.GetComponent<Rigidbody>().AddForce(currentBullet.transform.forward * bulletSpeed, ForceMode.Impulse);
         Physics.IgnoreCollision(currentBullet.GetComponent<Collider>(), characterController);
+
+        currentBullet.damage = damage;
+        currentBullet.headshotDamage = headshotDamage;
 
         currentBullet.gravityBullet = gravityBullets;
         currentBullet.gravityMultiplier = roundRules.bulletsGravityMultiplier;

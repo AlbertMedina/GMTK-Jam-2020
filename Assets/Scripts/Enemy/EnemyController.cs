@@ -75,6 +75,12 @@ public class EnemyController : MonoBehaviour
                 UpdateShootState();
                 break;
         }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, player.transform.position - transform.position, out hit))
+        {
+            Debug.Log(hit.collider.gameObject);
+        }
     }
 
     #region Initial
@@ -167,16 +173,17 @@ public class EnemyController : MonoBehaviour
 
     private void SearchNewPatrolTarget()
     {
-        if(health == initialHealth)
+        int idx;
+        if (health == initialHealth)
         {
             patrolTargets = patrolTargets.OrderBy((target) => (target.transform.position - transform.position).sqrMagnitude).ToArray();
+            idx = Random.Range(1, 4);
         }
         else
         {
             patrolTargets = patrolTargets.OrderBy((target) => (target.transform.position - player.transform.position).sqrMagnitude).ToArray();
+            idx = Random.Range(0, 3);
         }
-
-        int idx = Random.Range(0, 3);
 
         agent.SetDestination(patrolTargets[idx].transform.position);
     }
@@ -235,7 +242,7 @@ public class EnemyController : MonoBehaviour
     }
     #endregion
 
-    private void Hit(float damage)
+    public void Hit(float damage)
     {
         health -= damage;
 
