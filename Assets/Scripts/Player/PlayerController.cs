@@ -257,6 +257,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag == "Flag" && catchTheFlag)
         {
             //Player wins
+            FindObjectOfType<MatchController>().PlayerWins();
         }
     }
 
@@ -323,10 +324,12 @@ public class PlayerController : MonoBehaviour
         if (winByDying)
         {
             //Player wins
+            FindObjectOfType<MatchController>().PlayerWins();
         }
         else
         {
             //Enemy wins
+            FindObjectOfType<MatchController>().CPUWins();
         }
     }
 
