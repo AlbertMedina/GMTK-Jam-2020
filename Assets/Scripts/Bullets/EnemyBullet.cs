@@ -6,16 +6,6 @@ public class EnemyBullet : MonoBehaviour
 {
     [HideInInspector] public float damage;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player")
