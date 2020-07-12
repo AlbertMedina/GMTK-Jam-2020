@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float movementSpeed;
     public float jumpingSpeed;
+    public GP_JumpAssistantTest _jumpAssistant;
 
     [Header("Rotation")]
     public Transform pitchRotator;
@@ -194,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
         movement *= Time.deltaTime * movementSpeed;
 
-        if (isGrounded && Input.GetKeyDown(jumpKey))
+        if ((isGrounded || _jumpAssistant.isPlayerInJumpableZone) && Input.GetKeyDown(jumpKey))
         {
             verticalSpeed = jumpingSpeed;
         }
