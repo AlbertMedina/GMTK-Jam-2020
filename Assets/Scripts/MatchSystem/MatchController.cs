@@ -7,12 +7,13 @@ public class MatchController : MonoBehaviour
 {
     [Header("Config Options")] 
     
+    public int roundLenght;
     [SerializeField] private float gravityMultiplier;
     [SerializeField] private float slowMoTime;
     [SerializeField] private float fastMoTime;
     [SerializeField] private GameObject hud;
-    
-    
+    [SerializeField] private HUDLogic _hudLogic;
+
     private Match _match;
 
     private void Update()
@@ -20,6 +21,14 @@ public class MatchController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             InitMatch();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerWins();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CPUWins();
         }
     }
 
@@ -44,6 +53,7 @@ public class MatchController : MonoBehaviour
     private void StartMatch() //After countdown
     {
         hud.SetActive(true);
+        StartCoroutine(_hudLogic.Co_Counter());
     }
 
     public void StopMatch()
@@ -55,6 +65,18 @@ public class MatchController : MonoBehaviour
     private void ResetMatch()
     {
         Time.timeScale = 1;
+    }
+
+    public void PlayerWins()
+    {
+        _hudLogic.PlayerWins();
+        StopMatch();
+    }
+
+    public void CPUWins()
+    {
+        _hudLogic.CPUWins();
+        StopMatch();
     }
 
     private void ConfigBullets()
