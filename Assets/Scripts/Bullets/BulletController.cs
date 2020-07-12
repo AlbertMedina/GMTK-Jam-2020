@@ -11,7 +11,6 @@ public class BulletController : MonoBehaviour
     [HideInInspector] public bool gravityBullet;
     [HideInInspector] public float gravityMultiplier;
 
-    [HideInInspector] public bool canTakeDamage;
     [HideInInspector] public bool onlyHeadshots;
 
     [HideInInspector] public float damage;
@@ -36,14 +35,14 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "EnemyHead" && canTakeDamage)
+        if(collision.gameObject.tag == "EnemyHead")
         {
             collision.gameObject.transform.parent.GetComponent<EnemyController>().Hit(headshotDamage);
             Destroy(gameObject);
             return;
         }
         
-        if(collision.gameObject.tag == "Enemy" && canTakeDamage && !onlyHeadshots)
+        if(collision.gameObject.tag == "Enemy" && !onlyHeadshots)
         {
             collision.gameObject.GetComponent<EnemyController>().Hit(damage);
             Destroy(gameObject);

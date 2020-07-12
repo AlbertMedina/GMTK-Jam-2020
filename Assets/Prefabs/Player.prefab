@@ -29171,7 +29171,6 @@ MonoBehaviour:
   rightKey: 100
   leftKey: 97
   jumpKey: 32
-  meleeAttackKey: 102
   initialHealth: 100
   movementSpeed: 6
   jumpingSpeed: 5

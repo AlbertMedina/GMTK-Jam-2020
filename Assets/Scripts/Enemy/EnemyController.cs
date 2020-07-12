@@ -41,6 +41,8 @@ public class EnemyController : MonoBehaviour
     private bool onTransition;
     private float currentTime;
 
+    public Animator anim;
+
     private enum States
     {
         INITIAL,
@@ -65,6 +67,9 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        anim.SetFloat("speed", agent.velocity.magnitude);
+        if (currentState == States.SHOOT) anim.SetBool("isShooting", true);
+        else anim.SetBool("isShooting", false);
         switch (currentState)
         {
             case States.INITIAL:
@@ -316,7 +321,11 @@ public class EnemyController : MonoBehaviour
         {
             //Player wins
             FindObjectOfType<MatchController>().PlayerWins();
-        }
+        }       
+    }
+
+    public void FreezeEnemy()
+    {
         currentState = States.NONE;
     }
 

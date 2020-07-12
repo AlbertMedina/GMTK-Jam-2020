@@ -39,8 +39,8 @@ public class MatchController : MonoBehaviour
         currentMovementRule = PlayerController.MovementRules.NONE;
         currentWinningRule = PlayerController.WinningRules.NONE;
 
-        //flag = GameObject.FindGameObjectWithTag("Flag");
-        //flag.SetActive(false);
+        flag = GameObject.FindGameObjectWithTag("Flag");
+        flag.SetActive(false);
     }
 
     private void Update()
@@ -90,6 +90,7 @@ public class MatchController : MonoBehaviour
 
         int idx = UnityEngine.Random.Range(0, spawnPoints.Count);
         player.transform.position = spawnPoints[idx].transform.position;
+        player.transform.rotation = spawnPoints[idx].transform.rotation;
         spawnPoints.RemoveAt(idx);
         
         idx = UnityEngine.Random.Range(0, spawnPoints.Count);
@@ -99,14 +100,15 @@ public class MatchController : MonoBehaviour
     private void StartMatch() //After countdown
     {
         hud.SetActive(true);
-        FindObjectOfType<EnemyController>().SetInitialState();
-        FindObjectOfType<PlayerController>().StartRound();
+        enemy.SetInitialState();
+        player.StartRound();
         _hudLogic.StartCounter();
     }
 
     public void StopMatch(bool timeOut)
     {
-        FindObjectOfType<PlayerController>().FreezePlayer();
+        player.FreezePlayer();
+        enemy.FreezeEnemy();
         if (!timeOut) hud.SetActive(false);
     }
 

@@ -102,8 +102,6 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         roundRules = GetComponent<RoundRules>();
-
-        ResetRound();
     }
 
     void Update()
@@ -235,6 +233,10 @@ public class PlayerController : MonoBehaviour
                     {
                         Shoot();
                         bulletUsed = true;
+                    }
+                    else
+                    {
+                        //No ammo sound
                     }
                 }
             }
@@ -371,7 +373,7 @@ public class PlayerController : MonoBehaviour
                 winByDying = true;
                 break;
             case WinningRules.CATCH_THE_FLAG:
-                //FindObjectOfType<MatchController>().flag.SetActive(true);
+                FindObjectOfType<MatchController>().flag.SetActive(true);
                 catchTheFlag = true;
                 break;
             case WinningRules.ONLY_HEADSHOTS:
@@ -407,7 +409,21 @@ public class PlayerController : MonoBehaviour
         winByDying = false;
         onlyHeadshots = false;
 
-        //FindObjectOfType<MatchController>().flag.SetActive(false);
+        FindObjectOfType<MatchController>().flag.SetActive(false);
+
+        BulletController[] bulletsInScene = FindObjectsOfType<BulletController>();
+
+        for (int i = 0; i < bulletsInScene.Length; i++)
+        {
+            Destroy(bulletsInScene[i]);
+        }
+
+        EnemyBullet[] enemyBulletsInScene = FindObjectsOfType<EnemyBullet>();
+
+        for (int i = 0; i < enemyBulletsInScene.Length; i++)
+        {
+            Destroy(enemyBulletsInScene[i]);
+        }
 
         //Stats
         yawRotation = transform.rotation.eulerAngles.y;
