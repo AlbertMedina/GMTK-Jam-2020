@@ -80,11 +80,11 @@ public class MatchController : MonoBehaviour
     private void SetPositions()
     {
         List<GameObject> spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPosition").ToList();
-        Debug.Log(spawnPoints.Count);
+
         int idx = UnityEngine.Random.Range(0, spawnPoints.Count);
         player.transform.position = spawnPoints[idx].transform.position;
         spawnPoints.RemoveAt(idx);
-        Debug.Log(spawnPoints.Count);
+        
         idx = UnityEngine.Random.Range(0, spawnPoints.Count);
         enemy.transform.position = spawnPoints[idx].transform.position;
     }

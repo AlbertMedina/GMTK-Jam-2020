@@ -214,10 +214,14 @@ public class PlayerController : MonoBehaviour
                 characterController.Move(movement);
             }
 
-            if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, 0.1f))
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position - new Vector3(0f, characterController.height / 2, 0f), -transform.up, out hit, 0.1f))
             {
-                isGrounded = true;
-                verticalSpeed = 0.0f;
+                if(hit.collider.gameObject.tag != "Deadzone")
+                {
+                    isGrounded = true;
+                    verticalSpeed = 0.0f;
+                }
             }
             else
             {
@@ -263,6 +267,10 @@ public class PlayerController : MonoBehaviour
         {
             //Player wins
             FindObjectOfType<MatchController>().PlayerWins();
+        }
+        else if(other.gameObject.tag == "Deadzone")
+        {
+            health = 0f;
         }
     }
 
