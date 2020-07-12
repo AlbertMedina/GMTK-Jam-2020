@@ -385,6 +385,11 @@ public class PlayerController : MonoBehaviour
     public void FreezePlayer(bool freeze)
     {
         waitToStart = freeze;
+
+        //Input.ResetInputAxes();
+
+        yawRotation = transform.rotation.eulerAngles.y;
+        pitchRotation = pitchRotator.localRotation.eulerAngles.x;
     }
 
     public void ResetRound()
@@ -406,24 +411,9 @@ public class PlayerController : MonoBehaviour
 
         FindObjectOfType<MatchController>().flag.SetActive(false);
 
-        BulletController[] bulletsInScene = FindObjectsOfType<BulletController>();
-
-        for (int i = 0; i < bulletsInScene.Length; i++)
-        {
-            Destroy(bulletsInScene[i]);
-        }
-
-        EnemyBullet[] enemyBulletsInScene = FindObjectsOfType<EnemyBullet>();
-
-        for (int i = 0; i < enemyBulletsInScene.Length; i++)
-        {
-            Destroy(enemyBulletsInScene[i]);
-        }
+        DestroyBulletsInScene();
 
         //Stats
-        yawRotation = transform.rotation.eulerAngles.y;
-        pitchRotation = pitchRotator.localRotation.eulerAngles.x;
-
         verticalSpeed = 0f;
         isGrounded = false;
 
@@ -432,5 +422,22 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void DestroyBulletsInScene()
+    {
+        BulletController[] bulletsInScene = FindObjectsOfType<BulletController>();
+
+        for (int i = 0; i < bulletsInScene.Length; i++)
+        {
+            Destroy(bulletsInScene[i].gameObject);
+        }
+        
+        EnemyBullet[] enemyBulletsInScene = FindObjectsOfType<EnemyBullet>();
+
+        for (int i = 0; i < enemyBulletsInScene.Length; i++)
+        {
+            Destroy(enemyBulletsInScene[i].gameObject);
+        }
     }
 }
