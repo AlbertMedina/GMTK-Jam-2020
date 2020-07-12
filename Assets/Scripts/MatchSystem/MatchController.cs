@@ -166,10 +166,6 @@ public class MatchController : MonoBehaviour
                 ConfigUIController.Instance.invertedControls.SetActive(true);
                 currentMovementRule = PlayerController.MovementRules.INVERTED_CONTROLS;
                 break;
-            case 3: //No movement
-                ConfigUIController.Instance.cantMove.SetActive(true);
-                currentMovementRule = PlayerController.MovementRules.CANNOT_MOVE;
-                break;
             default:
                 currentMovementRule = PlayerController.MovementRules.NONE;
                 break;
@@ -191,10 +187,6 @@ public class MatchController : MonoBehaviour
             case 2: //Only HeadShots
                 ConfigUIController.Instance.onlyHeadShots.SetActive(true);
                 currentWinningRule = PlayerController.WinningRules.ONLY_HEADSHOTS;
-                break;
-            case 3: //Only Melee
-                ConfigUIController.Instance.onlyMelee.SetActive(true);
-                currentWinningRule = PlayerController.WinningRules.ONLY_MELEE;
                 break;
             default:
                 currentWinningRule = PlayerController.WinningRules.NONE;
